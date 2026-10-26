@@ -40,7 +40,7 @@ class ContextProcessorTests(TestCase):
         self.assertEqual(ctx["FRONTEND_HOST"], "http://portal.example.com")
         self.assertEqual(ctx["PORTAL_NAME"], settings.PORTAL_NAME)
         self.assertEqual(ctx["VERSION"], VERSION)
-        self.assertEqual(ctx["RSS_URL"], "/rss")
+        self.assertEqual(ctx["RSS_URL"], "/rss/")
         self.assertEqual(ctx["TRANSLATION"], {})
 
     def test_roles_are_reported_for_the_current_user(self):

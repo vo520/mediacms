@@ -131,6 +131,26 @@ class FileRemovalTests(TempDirMixin, SimpleTestCase):
         self.assertTrue(helpers.rm_dir(directory))
         self.assertFalse(os.path.exists(directory))
 
+    def test_rm_dir_allows_directories_inside_media_root(self):
+        directory = tempfile.mkdtemp(prefix="helpers-media-test-", dir=settings.MEDIA_ROOT)
+        self.addCleanup(shutil.rmtree, directory, True)
+        with open(os.path.join(directory, "f"), "w") as fp:
+            fp.write("x")
+
+        self.assertTrue(helpers.rm_dir(directory))
+        self.assertFalse(os.path.exists(directory))
+
+    def test_rm_dir_rejects_prefix_collisions(self):
+        parent = tempfile.mkdtemp(prefix="helpers-prefix-parent-")
+        self.addCleanup(shutil.rmtree, parent, True)
+        allowed = os.path.join(parent, "allowed")
+        collision = os.path.join(parent, "allowed-sibling")
+        os.mkdir(allowed)
+        os.mkdir(collision)
+        with override_settings(BASE_DIR=allowed, MEDIA_ROOT=allowed):
+            self.assertFalse(helpers.rm_dir(collision))
+        self.assertTrue(os.path.isdir(collision))
+
     def test_rm_dir_returns_false_for_a_missing_directory(self):
         self.assertFalse(helpers.rm_dir(os.path.join(settings.BASE_DIR, "no-such-dir-for-helpers-tests")))
 
@@ -169,6 +189,9 @@ class PathAndTokenTests(SimpleTestCase):
 
     def test_clean_friendly_token_keeps_a_valid_token(self):
         self.assertEqual(helpers.clean_friendly_token("abcXYZ123"), "abcXYZ123")
+
+    def test_clean_friendly_token_removes_invalid_characters(self):
+        self.assertEqual(helpers.clean_friendly_token("abc-XYZ_123!"), "abcXYZ123")
 
     def test_mask_ip_is_the_md5_hexdigest(self):
         self.assertEqual(helpers.mask_ip("10.0.0.1"), hashlib.md5(b"10.0.0.1").hexdigest())

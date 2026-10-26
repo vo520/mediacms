@@ -20,6 +20,20 @@ interface TrimVideoResponse {
 // Helper function to simulate delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const getCsrfToken = (): string => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split('; csrftoken=');
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || '';
+    return '';
+};
+
+const jsonHeaders = (): Record<string, string> => {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    const csrfToken = getCsrfToken();
+    if (csrfToken) headers['X-CSRFToken'] = csrfToken;
+    return headers;
+};
+
 // Auto-save interface
 interface AutoSaveRequest {
     segments: {
@@ -48,7 +62,7 @@ export const autoSaveVideo = async (mediaId: string, data: AutoSaveRequest): Pro
     try {
         const response = await fetch(`/api/v1/media/${mediaId}/save_trim`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: jsonHeaders(),
             body: JSON.stringify(data),
         });
 
@@ -114,7 +128,7 @@ export const trimVideo = async (mediaId: string, data: TrimVideoRequest): Promis
         // Attempt the real API call
         const response = await fetch(`/api/v1/media/${mediaId}/trim_video`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: jsonHeaders(),
             body: JSON.stringify(data),
         });
 

@@ -51,6 +51,7 @@ def view_user(request, username):
     return render(request, "cms/user.html", context)
 
 
+@login_required
 def shared_with_me(request, username):
     context = {}
     user = get_user(username=username)
@@ -63,6 +64,7 @@ def shared_with_me(request, username):
     return render(request, "cms/user_shared_with_me.html", context)
 
 
+@login_required
 def shared_by_me(request, username):
     context = {}
     user = get_user(username=username)
@@ -347,6 +349,8 @@ class UserDetail(APIView):
         if serializer.is_valid():
             logo = request.data.get("logo")
             if logo:
+                if logo.size > 2 * 1024 * 1024:
+                    return Response({"logo": ["Image file too large ( > 2mb )"]}, status=status.HTTP_400_BAD_REQUEST)
                 serializer.save(logo=logo)
             else:
                 serializer.save()

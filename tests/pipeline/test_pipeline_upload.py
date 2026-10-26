@@ -294,6 +294,26 @@ class UploadPermissionsAndValidationTest(TestCase):
         self.assertEqual(upload(self.client, read_fixture(IMAGE), "pipeline_second.png").status_code, 403)
         self.assertEqual(Media.objects.filter(user=self.user).count(), 1)
 
+    @override_settings(UPLOAD_MAX_SIZE=10)
+    def test_single_upload_larger_than_upload_limit_is_rejected(self):
+        self.login()
+
+        response = upload(self.client, read_fixture(IMAGE), "pipeline_too_large.png", qqtotalfilesize=11)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(response.json()["success"])
+        self.assertFalse(Media.objects.filter(user=self.user).exists())
+
+    @override_settings(UPLOAD_MAX_SIZE=10)
+    def test_chunk_completion_larger_than_upload_limit_is_rejected(self):
+        self.login()
+
+        response = self.client.post(DONE_URL, {"qquuid": str(uuid.uuid4()), "qqfilename": "pipeline_too_large.png", "qqtotalparts": 1, "qqtotalfilesize": 11})
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(response.json()["success"])
+        self.assertFalse(Media.objects.filter(user=self.user).exists())
+
 
 class FineUploaderUnitTest(TestCase):
     def test_strip_delimiters_removes_shell_and_path_characters(self):

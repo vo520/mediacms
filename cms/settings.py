@@ -545,7 +545,7 @@ TINYMCE_DEFAULT_CONFIG = {
     },
     "font_size_formats": "16px 18px 24px 32px",
     "images_upload_url": "/tinymce/upload/",
-    "images_upload_handler": "tinymce.views.upload_image",
+    "images_upload_handler": "uploadTinyMCEImage",
     "automatic_uploads": True,
     "file_picker_types": "image",
     "paste_data_images": True,

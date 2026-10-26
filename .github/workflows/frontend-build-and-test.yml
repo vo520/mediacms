@@ -1,42 +1,47 @@
 name: Frontend build and test
 
 on:
-    workflow_call:
-    workflow_dispatch:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
-    group: frontend-${{ github.head_ref || github.ref }}
-    cancel-in-progress: true
+  group: frontend-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    build-and-test:
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node: [24]
-        runs-on: ${{ matrix.os }}
-        name: '${{ matrix.os }} - node v${{ matrix.node }}'
-        permissions:
-            contents: read
-        defaults:
-            run:
-                working-directory: ./frontend
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [24]
+    runs-on: ${{ matrix.os }}
+    name: '${{ matrix.os }} - node v${{ matrix.node }}'
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ./frontend
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ matrix.node }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-            - name: Install dependencies
-              run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: frontend/package.json
 
-            - name: Test script
-              run: npm run test -- --ci
+      - name: Install dependencies
+        run: npm install
 
-            - name: Build script
-              run: npm run dist
+      - name: Test script
+        run: npm run test -- --ci
+
+      - name: Build script
+        run: npm run dist

@@ -17,10 +17,12 @@
 		<loc>{{ FRONTEND_HOST }}/latest</loc>
 		<changefreq>hourly</changefreq>
 	</url>
+	{% if show_members %}
 	<url>
 		<loc>{{ FRONTEND_HOST }}/members</loc>
 		<changefreq>daily</changefreq>
 	</url>
+	{% endif %}
 	<url>
 		<loc>{{ FRONTEND_HOST }}/tags</loc>
 		<changefreq>daily</changefreq>
@@ -29,13 +31,7 @@
 		<loc>{{ FRONTEND_HOST }}/categories</loc>
 		<changefreq>weekly</changefreq>
 	</url>
-	<url>
-		<loc>{{ FRONTEND_HOST }}/history</loc>
-		<changefreq>always</changefreq>
-	</url>
-	<url>
-		<loc>{{ FRONTEND_HOST }}/liked</loc>
-	</url>
+
 	<url>
 		<loc>{{ FRONTEND_HOST }}/about</loc>
 		<changefreq>monthly</changefreq>

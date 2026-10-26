@@ -8,8 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.utils.html import strip_tags
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from cms.version import VERSION
 from files.methods import user_allowed_to_upload
@@ -47,7 +48,7 @@ def get_page(request, slug):
     if page:
         context["page"] = page
     else:
-        return render(request, "404.html", context)
+        return render(request, "404.html", context, status=404)
     return render(request, "cms/page.html", context)
 
 
@@ -195,6 +196,7 @@ def categories(request):
     return render(request, "cms/categories.html", context)
 
 
+@login_required
 def edit_category(request, uid):
     """Edit one category's title, description and thumbnail.
 
@@ -266,6 +268,7 @@ Sender email: %s\n
     return render(request, "cms/contact.html", context)
 
 
+@login_required
 def history(request):
     """Show personal history view"""
 
@@ -298,7 +301,6 @@ def _timestamp_to_seconds(value):
     return hours * 3600 + minutes * 60 + seconds + millis / 1000.0
 
 
-@csrf_exempt
 @login_required
 def video_chapters(request, friendly_token):
     if not request.method == "POST":
@@ -510,6 +512,7 @@ def replace_media(request):
 
 
 @login_required
+@ensure_csrf_cookie
 def edit_chapters(request):
     """Edit chapters"""
     friendly_token = request.GET.get("m", "").strip()
@@ -537,7 +540,66 @@ def edit_chapters(request):
     )
 
 
-@csrf_exempt
+@login_required
+def save_trim(request, friendly_token):
+    if not settings.ALLOW_VIDEO_TRIMMER:
+        return JsonResponse({"status": "error", "error": "Video trimming is not allowed"}, status=400)
+
+    if not request.method == "POST":
+        return HttpResponseRedirect("/")
+
+    media = Media.objects.filter(friendly_token=friendly_token).first()
+
+    if not media:
+        return HttpResponseRedirect("/")
+
+    if not (is_mediacms_editor(request.user) or request.user.has_contributor_access_to_media(media)):
+        return HttpResponseRedirect("/")
+
+    try:
+        request_data = json.loads(request.body)
+        data = request_data.get("segments")
+        if not isinstance(data, list):
+            return JsonResponse({"status": "error", "error": 'Request must contain "segments" array'}, status=400)
+        if len(data) > 200:
+            return JsonResponse({"status": "error", "error": "Too many segments (max 200)"}, status=400)
+
+        segments = []
+        for segment_data in data:
+            if not isinstance(segment_data, dict):
+                continue
+            start_time = segment_data.get("startTime")
+            end_time = segment_data.get("endTime")
+            name = segment_data.get("name", "")
+
+            start_seconds = _timestamp_to_seconds(start_time)
+            end_seconds = _timestamp_to_seconds(end_time)
+            if start_seconds is None or end_seconds is None:
+                continue
+            if start_seconds < 0 or end_seconds < 0 or start_seconds >= end_seconds:
+                continue
+
+            if not isinstance(name, str):
+                name = ""
+
+            segments.append(
+                {
+                    "startTime": start_time,
+                    "endTime": end_time,
+                    "name": strip_tags(name).strip()[:255],
+                }
+            )
+    except Exception as e:  # noqa
+        return JsonResponse({"status": "error", "error": "Incorrect request data"}, status=400)
+
+    updated_at = timezone.now().isoformat()
+    drafts = request.session.setdefault("video_trim_drafts", {})
+    drafts[media.friendly_token] = {"segments": segments, "updated_at": updated_at}
+    request.session.modified = True
+
+    return JsonResponse({"status": "success", "media_id": media.friendly_token, "segments": segments, "updated_at": updated_at})
+
+
 @login_required
 def trim_video(request, friendly_token):
     if not settings.ALLOW_VIDEO_TRIMMER:
@@ -571,6 +633,7 @@ def trim_video(request, friendly_token):
 
 
 @login_required
+@ensure_csrf_cookie
 def edit_video(request):
     """Edit video"""
 
@@ -600,7 +663,7 @@ def edit_video(request):
         messages.add_message(request, messages.INFO, "Video trim request is already running")
         return HttpResponseRedirect(media.get_absolute_url())
 
-    media_file_path = media.trim_video_url
+    media_file_path = media.trim_video_url or helpers.url_from_path(media.media_file.path)
 
     if not media_file_path:
         messages.add_message(request, messages.INFO, "Media processing has not finished yet")
@@ -610,10 +673,17 @@ def edit_video(request):
         video_msg = "Media encoding hasn't finished yet. Attempting to show the original video file"
         messages.add_message(request, messages.INFO, video_msg)
 
+    trim_draft = request.session.get("video_trim_drafts", {}).get(media.friendly_token)
+
     return render(
         request,
         "cms/edit_video.html",
-        {"media_object": media, "add_subtitle_url": media.add_subtitle_url, "media_file_path": media_file_path},
+        {
+            "media_object": media,
+            "add_subtitle_url": media.add_subtitle_url,
+            "media_file_path": media_file_path,
+            "saved_segments": helpers.json_for_script(trim_draft),
+        },
     )
 
 
@@ -655,6 +725,7 @@ def latest_media(request):
     return render(request, "cms/latest-media.html", context)
 
 
+@login_required
 def liked_media(request):
     """List user's liked media view"""
 
@@ -726,10 +797,12 @@ def search(request):
 def sitemap(request):
     """Sitemap"""
 
+    show_members = settings.CAN_SEE_MEMBERS_PAGE not in ["editors", "admins"]
     context = {}
+    context["show_members"] = show_members
     context["media"] = list(Media.objects.filter(listable=True).order_by("-add_date"))
-    context["playlists"] = list(Playlist.objects.filter().order_by("-add_date"))
-    context["users"] = list(User.objects.filter())
+    context["playlists"] = list(Playlist.objects.filter(media__listable=True).distinct().order_by("-add_date"))
+    context["users"] = list(User.objects.filter()) if show_members else []
     return render(request, "sitemap.xml", context, content_type="application/xml")
 
 
@@ -771,7 +844,7 @@ def view_media(request):
     media = Media.objects.filter(friendly_token=friendly_token).first()
     if not media:
         context["media"] = None
-        return render(request, "cms/media.html", context)
+        return render(request, "cms/media.html", context, status=404)
 
     user_or_session = get_user_or_session(request)
     save_user_action.delay(user_or_session, friendly_token=friendly_token, action="watch")
@@ -817,4 +890,6 @@ def view_playlist(request, friendly_token):
 
     context = {}
     context["playlist"] = playlist
+    if playlist is None:
+        return render(request, "cms/playlist.html", context, status=404)
     return render(request, "cms/playlist.html", context)

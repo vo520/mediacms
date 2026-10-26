@@ -1,6 +1,7 @@
 import uuid
 
 from django.core import mail
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from rest_framework.test import APIClient
 
@@ -190,6 +191,17 @@ class UserDetailApiTest(TestCase):
         self.assertNotEqual(self.owner.logo.name, "userlogos/user.jpg")
         self.assertTrue(self.owner.logo.name.endswith(".jpg"))
         self.assertEqual((self.owner.logo.width, self.owner.logo.height), (200, 200))
+
+    def test_user_logo_over_two_megabytes_is_rejected(self):
+        self.client.force_authenticate(self.owner)
+        logo = SimpleUploadedFile("huge.png", b"x" * (2 * 1024 * 1024 + 1), content_type="image/png")
+
+        response = self.client.post(self.url(self.owner), {"logo": logo}, format="multipart")
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["logo"], ["Image file too large ( > 2mb )"])
+        self.owner.refresh_from_db()
+        self.assertEqual(self.owner.logo.name, "userlogos/user.jpg")
 
     def test_user_cannot_edit_someone_elses_profile(self):
         self.client.force_authenticate(self.other)

@@ -9,9 +9,9 @@ router = SimpleRouter()
 router.register(r"api/v1/migrations", views.MigrationServiceViewSet, basename="migrations")
 
 urlpatterns = router.urls + [
-    re_path(r"^migrations$", views.migrations_list, name="migrations_list"),
-    re_path(r"^migrations/new$", views.migration_new, name="migration_new"),
-    re_path(r"^migrations/new/(?P<source>[\w-]+)$", views.migration_edit, name="migration_new_source"),
-    path("migrations/<int:pk>/edit", views.migration_edit, name="migration_edit"),
-    path("migrations/<int:pk>", views.migration_detail, name="migration_detail"),
+    re_path(r"^migrations/?$", views.migrations_list, name="migrations_list"),
+    re_path(r"^migrations/new/?$", views.migration_new, name="migration_new"),
+    re_path(r"^migrations/new/(?P<source>[\w-]+)/?$", views.migration_edit, name="migration_new_source"),
+    re_path(r"^migrations/(?P<pk>\d+)/edit/?$", views.migration_edit, name="migration_edit"),
+    re_path(r"^migrations/(?P<pk>\d+)/?$", views.migration_detail, name="migration_detail"),
 ]

@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.test import TestCase
 
 from files.tests import create_account, fixture_path
@@ -90,14 +91,18 @@ class SharedMediaPagesTest(TestCase):
             self.assertTemplateUsed(response, template)
             self.assertTrue(response.context["CAN_EDIT"])
 
-    def test_other_users_and_anonymous_are_sent_home(self):
-        for login in (self.other, None):
-            if login:
-                self.client.force_login(login)
-            for suffix in ("shared_with_me", "shared_by_me"):
+    def test_other_users_are_sent_home(self):
+        self.client.force_login(self.other)
+        for suffix in ("shared_with_me", "shared_by_me"):
+            response = self.client.get(f"/user/{self.owner.username}/{suffix}")
+            self.assertRedirects(response, "/", fetch_redirect_response=False)
+
+    def test_anonymous_users_are_sent_to_login(self):
+        for suffix in ("shared_with_me", "shared_by_me"):
+            with self.subTest(suffix=suffix):
                 response = self.client.get(f"/user/{self.owner.username}/{suffix}")
-                self.assertRedirects(response, "/", fetch_redirect_response=False)
-            self.client.logout()
+                self.assertEqual(response.status_code, 302)
+                self.assertIn(settings.LOGIN_URL, response["Location"])
 
     def test_unknown_user_is_sent_home(self):
         self.client.force_login(self.owner)

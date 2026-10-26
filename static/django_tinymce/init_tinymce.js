@@ -1,6 +1,53 @@
 'use strict';
 
 {
+  function getCSRFToken() {
+    const name = 'csrftoken=';
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length) === name) {
+        return decodeURIComponent(cookie.substring(name.length));
+      }
+    }
+    return '';
+  }
+
+  function uploadTinyMCEImage(blobInfo, progress) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/tinymce/upload/');
+      const csrfToken = getCSRFToken();
+      if (csrfToken) {
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+      }
+      xhr.upload.onprogress = (e) => progress(e.loaded / e.total * 100);
+      xhr.onload = () => {
+        let json = null;
+        try {
+          json = JSON.parse(xhr.responseText);
+        } catch (e) {
+          json = null;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+          reject((json && json.error) || 'Image upload failed');
+          return;
+        }
+        if (!json || !json.location) {
+          reject('Image upload failed');
+          return;
+        }
+        resolve(json.location);
+      };
+      xhr.onerror = () => reject('Image upload failed');
+
+      const formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+      xhr.send(formData);
+    });
+  }
+  window.uploadTinyMCEImage = uploadTinyMCEImage;
+
   function initTinyMCE(el) {
     if (el.closest('.empty-form') === null) {  // Don't do empty inlines
       var mce_conf = JSON.parse(el.dataset.mceConf);

@@ -1,6 +1,20 @@
 // API service for video trimming operations
 import logger from '../lib/logger';
 
+const getCsrfToken = (): string => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split('; csrftoken=');
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || '';
+    return '';
+};
+
+const jsonHeaders = (): Record<string, string> => {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    const csrfToken = getCsrfToken();
+    if (csrfToken) headers['X-CSRFToken'] = csrfToken;
+    return headers;
+};
+
 // Helper function to simulate delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -31,7 +45,7 @@ export const autoSaveVideo = async (mediaId: string, data: AutoSaveRequest): Pro
     try {
         const response = await fetch(`/api/v1/media/${mediaId}/chapters`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: jsonHeaders(),
             body: JSON.stringify(data),
         });
 

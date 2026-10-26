@@ -3,7 +3,8 @@ import uuid
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import RequestFactory, TestCase
+from django.test import Client, RequestFactory, TestCase
+from django.test.utils import override_settings
 
 from cms.version import VERSION
 from files import views
@@ -82,6 +83,7 @@ class SitemapTest(TestCase):
         cls.private = create_media(cls.user, title="sitemap private", state="private")
         cls.unlisted = create_media(cls.user, title="sitemap unlisted", state="unlisted")
         cls.playlist = cls.user.playlists.create(title="sitemap playlist")
+        cls.playlist.media.add(cls.public)
 
     def sitemap(self):
         return views.sitemap(factory_request("/sitemap.xml")).content.decode()
@@ -99,10 +101,18 @@ class SitemapTest(TestCase):
         self.assertNotIn(self.private.friendly_token, content)
         self.assertNotIn(self.unlisted.friendly_token, content)
 
-    def test_sitemap_lists_playlists_and_users(self):
+    def test_sitemap_lists_only_playlists_with_listable_media_and_visible_users(self):
+        empty_playlist = self.user.playlists.create(title="empty sitemap playlist")
         content = self.sitemap()
         self.assertIn(f"/playlists/{self.playlist.friendly_token}</loc>", content)
+        self.assertNotIn(f"/playlists/{empty_playlist.friendly_token}</loc>", content)
         self.assertIn(f"/user/{self.user.username}/</loc>", content)
+
+    @override_settings(CAN_SEE_MEMBERS_PAGE="admins")
+    def test_sitemap_hides_members_when_members_page_is_restricted(self):
+        content = self.sitemap()
+        self.assertNotIn("<loc>http://testserver/members</loc>", content)
+        self.assertNotIn(f"/user/{self.user.username}/</loc>", content)
 
 
 class UserProfilePagesTest(TestCase):
@@ -183,3 +193,29 @@ class TinyMCEUploadTest(TestCase):
 
     def test_upload_without_a_file_is_rejected(self):
         self.assertEqual(self.upload(self.admin, with_file=False).status_code, 400)
+
+    def test_csrf_protection_is_enforced(self):
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.admin)
+        with open(fixture_path(IMAGE), "rb") as fp:
+            data = {"file": SimpleUploadedFile("pasted.png", fp.read(), content_type="image/png")}
+        response = client.post("/tinymce/upload/", data)
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(TinyMCEMedia.objects.exists())
+
+    @override_settings(TINYMCE_UPLOAD_MAX_SIZE=10)
+    def test_large_image_upload_is_rejected(self):
+        self.client.force_login(self.admin)
+        upload = SimpleUploadedFile("huge.png", b"x" * 11, content_type="image/png")
+        response = self.client.post("/tinymce/upload/", {"file": upload})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "Image file too large ( > 5mb )")
+        self.assertFalse(TinyMCEMedia.objects.exists())
+
+    def test_non_image_upload_is_rejected(self):
+        self.client.force_login(self.admin)
+        upload = SimpleUploadedFile("payload.png", b"not image", content_type="image/png")
+        response = self.client.post("/tinymce/upload/", {"file": upload})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["error"], "Invalid image type")
+        self.assertFalse(TinyMCEMedia.objects.exists())

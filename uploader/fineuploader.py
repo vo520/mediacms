@@ -1,11 +1,12 @@
 import os
 import re
-import shutil
 import uuid
 from io import StringIO
 from os.path import join
 
 from django.conf import settings
+
+from files.helpers import rm_dir
 
 from . import utils
 
@@ -108,7 +109,7 @@ class ChunkedFineUploader(BaseFineUploader):
                 part = join(self.chunks_path, str(i))
                 with self.storage.open(part, "rb") as source:
                     final_file.write(source.read())
-        shutil.rmtree(self._abs_chunks_path)
+        rm_dir(self._abs_chunks_path)
 
     def _save_chunk(self):
         return self.storage.save(self.chunk_file, self.file)

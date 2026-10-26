@@ -2,7 +2,7 @@ version: "3"
 
 services:
   migrations:
-    image: mediacms/mediacms:latest
+    image: mediacms/mediacms:9.2.1
     volumes:
       - ./:/home/mediacms.io/mediacms/
     environment:
@@ -22,11 +22,11 @@ services:
       db:
         condition: service_healthy
   web:
-    image: mediacms/mediacms:latest
+    image: mediacms/mediacms:9.2.1
     deploy:
       replicas: 1
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./:/home/mediacms.io/mediacms/
     environment:
@@ -34,10 +34,11 @@ services:
       ENABLE_CELERY_SHORT: 'no'
       ENABLE_CELERY_LONG: 'no'
       ENABLE_MIGRATIONS: 'no'
+      FRONTEND_HOST: 'http://localhost:8080'
     depends_on:
       - migrations
   celery_beat:
-    image: mediacms/mediacms:latest
+    image: mediacms/mediacms:9.2.1
     volumes:
       - ./:/home/mediacms.io/mediacms/
     environment:
@@ -49,7 +50,7 @@ services:
     depends_on:
       - redis
   celery_worker:
-    image: mediacms/mediacms:latest
+    image: mediacms/mediacms:9.2.1
     deploy:
       replicas: 1
     volumes:

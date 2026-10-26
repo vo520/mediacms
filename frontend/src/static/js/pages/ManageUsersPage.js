@@ -23,7 +23,7 @@ export class ManageUsersPage extends Page {
       hiddenFilters: true,
       filterArgs: '',
       sortingArgs: '',
-      sortBy: 'add_date',
+      sortBy: 'date_added',
       ordering: 'desc',
       refresh: 0,
     };

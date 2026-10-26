@@ -29,9 +29,9 @@ export function ManageUsersItemHeader(rawProps) {
       </div>
       <div className="mi-username">Username</div>
       <div
-        id="add_date"
+        id="date_added"
         onClick={sortByColumn}
-        className={'mi-added mi-col-sort' + ('add_date' === sort ? ('asc' === order ? ' asc' : ' desc') : '')}
+        className={'mi-added mi-col-sort' + ('date_added' === sort ? ('asc' === order ? ' asc' : ' desc') : '')}
       >
         Date added
         <div className="mi-col-sort-icons">

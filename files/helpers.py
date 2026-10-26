@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import tempfile
 from fractions import Fraction
+from pathlib import Path
 
 import filetype
 from django.conf import settings
@@ -141,9 +142,23 @@ def get_file_type(filename):
 
 
 def rm_file(filename):
-    if os.path.isfile(filename):
+    try:
+        file_path = Path(filename).resolve()
+        # TEMP_DIRECTORY is included because the encoding tasks create temporary
+        # files there and remove them through this helper.
+        allowed_roots = (
+            Path(settings.BASE_DIR).resolve(),
+            Path(settings.MEDIA_ROOT).resolve(),
+            Path(settings.TEMP_DIRECTORY).resolve(),
+        )
+        if not any(file_path.is_relative_to(root) for root in allowed_roots):
+            return False
+    except (OSError, TypeError, ValueError):
+        return False
+
+    if file_path.is_file():
         try:
-            os.remove(filename)
+            os.remove(file_path)
             return True
         except OSError:
             pass
@@ -158,15 +173,25 @@ def rm_files(filenames):
 
 
 def rm_dir(directory):
-    if os.path.isdir(directory):
-        # refuse to delete a dir inside project BASE_DIR
-        if directory.startswith(settings.BASE_DIR):
-            try:
-                shutil.rmtree(directory)
-                return True
-            except (FileNotFoundError, PermissionError):
-                pass
-    return False
+    if not os.path.isdir(directory):
+        return False
+
+    try:
+        directory_path = Path(directory).resolve()
+        allowed_roots = (
+            Path(settings.BASE_DIR).resolve(),
+            Path(settings.MEDIA_ROOT).resolve(),
+        )
+        if not any(directory_path.is_relative_to(root) for root in allowed_roots):
+            return False
+    except (OSError, ValueError):
+        return False
+
+    try:
+        shutil.rmtree(directory_path)
+        return True
+    except (FileNotFoundError, PermissionError):
+        return False
 
 
 SCRIPT_JSON_ESCAPES = str.maketrans({"<": r"\u003C", ">": r"\u003E", "&": r"\u0026"})
@@ -200,10 +225,7 @@ def produce_friendly_token(token_len=settings.FRIENDLY_TOKEN_LEN):
 
 def clean_friendly_token(token):
     # cleans token
-    for char in token:
-        if char not in CHARS:
-            token.replace(char, "")
-    return token
+    return "".join(char for char in token if char in CHARS)
 
 
 def mask_ip(ip_address):

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.test import TestCase, override_settings
 
@@ -148,8 +149,6 @@ class MediaListingPagesTest(TestCase):
             "/popular": "cms/recommended-media.html",
             "/categories": "cms/categories.html",
             "/tags": "cms/tags.html",
-            "/history": "cms/history.html",
-            "/liked": "cms/liked_media.html",
             "/members": "cms/members.html",
             "/search": "cms/search.html",
         }
@@ -158,6 +157,13 @@ class MediaListingPagesTest(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, 200)
                 self.assertTemplateUsed(response, template)
+
+    def test_personal_listing_pages_send_anonymous_users_to_login(self):
+        for url in ["/history", "/liked"]:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 302)
+                self.assertIn(settings.LOGIN_URL, response["Location"])
 
     def test_listing_pages_render_for_logged_in_users(self):
         self.client.force_login(self.user)

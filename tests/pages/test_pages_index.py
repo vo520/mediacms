@@ -148,7 +148,7 @@ class IndexPageContextTest(TestCase):
     def test_portal_name_and_host_reach_the_page(self):
         response = self.client.get("/")
         self.assertEqual(response.context["FRONTEND_HOST"], "http://testserver")
-        self.assertEqual(response.context["RSS_URL"], "/rss")
+        self.assertEqual(response.context["RSS_URL"], "/rss/")
         self.assertContains(response, 'title: "Pages Test Portal"')
 
     @override_settings(USE_LTI=True)

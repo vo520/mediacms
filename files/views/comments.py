@@ -45,9 +45,7 @@ class CommentList(APIView):
     def get(self, request, format=None):
         pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
         paginator = pagination_class()
-        comments = Comment.objects.filter(media__state="public").order_by("-add_date")
-        comments = comments.prefetch_related("user")
-        comments = comments.prefetch_related("media")
+        comments = Comment.objects.filter(media__state="public").select_related("user", "media").order_by("-add_date")
         params = self.request.query_params
         if "author" in params:
             author_param = params["author"].strip()
@@ -95,12 +93,12 @@ class CommentDetail(APIView):
         operation_summary='List comments',
         operation_description='Paginated comments of a media, newest first. Private media need the same access as viewing the media.',
     )
-    def get(self, request, friendly_token):
+    def get(self, request, friendly_token, uid=None):
         # list comments for a media
         media = self.get_object(friendly_token)
         if isinstance(media, Response):
             return media
-        comments = media.comments.filter().prefetch_related("user").order_by("-add_date")
+        comments = media.comments.select_related("user").order_by("-add_date")
         pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
         paginator = pagination_class()
         page = paginator.paginate_queryset(comments, request)

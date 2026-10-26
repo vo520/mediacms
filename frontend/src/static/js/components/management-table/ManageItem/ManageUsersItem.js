@@ -321,7 +321,7 @@ export function ManageUsersItem(rawProps) {
         <ManageItemUsername username={props.username} url={props.url} />
       </div>
       <div className="mi-added">
-        <ManageItemDate date={props.add_date} />
+        <ManageItemDate date={props.date_added} />
       </div>
       {props.has_roles ? (
         <div className="mi-role">

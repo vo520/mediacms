@@ -2,10 +2,11 @@ import json
 import uuid
 from unittest import mock
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import Client, TestCase, override_settings
 
 from files import helpers
 from files.models import (
@@ -286,6 +287,14 @@ class TrimVideoEndpointTest(TestCase):
     def test_get_redirects_home(self):
         self.assertRedirects(self.trim(self.owner, None, method="get"), "/", fetch_redirect_response=False)
 
+    @mock.patch("files.views.pages.video_trim_task")
+    def test_csrf_protection_is_enforced(self, task):
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.owner)
+        response = client.post(f"/api/v1/media/{self.video.friendly_token}/trim_video", {"segments": []}, content_type="application/json")
+        self.assertEqual(response.status_code, 403)
+        task.delay.assert_not_called()
+
     @override_settings(ALLOW_VIDEO_TRIMMER=False)
     def test_disabled_trimmer_refuses_requests(self):
         response = self.trim(self.owner, {"segments": []})
@@ -357,6 +366,12 @@ class VideoChaptersEndpointTest(TestCase):
 
     def test_other_user_cannot_set_chapters(self):
         self.assertRedirects(self.post({"chapters": []}, user=self.other), "/", fetch_redirect_response=False)
+
+    def test_csrf_protection_is_enforced(self):
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.owner)
+        response = client.post(f"/api/v1/media/{self.media.friendly_token}/chapters", json.dumps({"chapters": []}), content_type="application/json")
+        self.assertEqual(response.status_code, 403)
         self.assertFalse(VideoChapterData.objects.filter(media=self.media).exists())
 
     def test_get_redirects_home(self):
@@ -384,13 +399,17 @@ class EditCategoryPageTest(TestCase):
         self.assertRedirects(self.client.get("/edit_category/doesnotexist"), "/", fetch_redirect_response=False)
 
     def test_users_and_editors_are_sent_back_to_the_category(self):
-        for user in [None, self.user, self.editor]:
-            with self.subTest(user=user and user.username):
+        for user in [self.user, self.editor]:
+            with self.subTest(user=user.username):
                 self.client.logout()
-                if user:
-                    self.client.force_login(user)
+                self.client.force_login(user)
                 response = self.client.get(f"/edit_category/{self.category.uid}")
                 self.assertRedirects(response, self.category.get_absolute_url(), fetch_redirect_response=False)
+
+    def test_anonymous_users_are_sent_to_login(self):
+        response = self.client.get(f"/edit_category/{self.category.uid}")
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(settings.LOGIN_URL, response["Location"])
 
     def test_manager_updates_title_and_description(self):
         self.client.force_login(self.manager)

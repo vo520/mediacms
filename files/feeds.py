@@ -9,6 +9,11 @@ from .models import Category, Media
 from .stop_words import STOP_WORDS
 
 
+def frontend_base():
+    """Absolute portal URL, so feed links do not depend on the django.contrib.sites entry."""
+    return (getattr(settings, "SSL_FRONTEND_HOST", None) or settings.FRONTEND_HOST).rstrip("/")
+
+
 class MediaRSSFeed(Rss201rev2Feed):
     def rss_attributes(self):
         attrs = super(MediaRSSFeed, self).rss_attributes()
@@ -59,8 +64,13 @@ class MediaRSSFeed(Rss201rev2Feed):
 class IndexRSSFeed(Feed):
     feed_type = MediaRSSFeed
     title = "Latest Media"
-    link = "/rss"
     description = "Latest Media RSS feed"
+
+    def link(self, obj):
+        return f"{frontend_base()}/rss/"
+
+    def feed_url(self, obj):
+        return f"{frontend_base()}/rss/"
 
     def items(self):
         media = Media.objects.filter(listable=True).order_by("-add_date")
@@ -83,15 +93,16 @@ class IndexRSSFeed(Feed):
         return item.edit_date
 
     def item_link(self, item):
-        return f"{reverse('get_media')}?m={item.friendly_token}"
+        return f"{frontend_base()}{reverse('get_media')}?m={item.friendly_token}"
 
     def item_extra_kwargs(self, item):
+        base = frontend_base()
         item = {
             "media:title": item.title,
             "media:description": item.description,
             "content_width": 720,
-            "thumbnail_url": f"{settings.SSL_FRONTEND_HOST}/{item.poster_url}",
-            "content_url": f"{settings.SSL_FRONTEND_HOST}/{item.get_absolute_url()}",
+            "thumbnail_url": f"{base}{item.poster_url}",
+            "content_url": f"{base}{item.get_absolute_url()}",
             "thumbnail_width": 720,
         }
         return item
@@ -99,12 +110,17 @@ class IndexRSSFeed(Feed):
 
 class SearchRSSFeed(Feed):
     feed_type = MediaRSSFeed
+    title = "Search Media"
     description = "Latest Media RSS feed"
 
     def link(self, obj):
-        return "/rss/search"
+        return f"{frontend_base()}/rss/search"
+
+    def feed_url(self, obj):
+        return f"{frontend_base()}{getattr(self, '_path', '/rss/search')}"
 
     def get_object(self, request):
+        self._path = request.path
         category = request.GET.get("c", "")
         tag = request.GET.get("t", "")
         query = request.GET.get("q", "")
@@ -155,15 +171,16 @@ class SearchRSSFeed(Feed):
         return item.edit_date
 
     def item_link(self, item):
-        return f"{reverse('get_media')}?m={item.friendly_token}"
+        return f"{frontend_base()}{reverse('get_media')}?m={item.friendly_token}"
 
     def item_extra_kwargs(self, item):
+        base = frontend_base()
         item = {
             "media:title": item.title,
             "media:description": item.description,
             "content_width": 720,
-            "thumbnail_url": f"{settings.SSL_FRONTEND_HOST}/{item.poster_url}",
-            "content_url": f"{settings.SSL_FRONTEND_HOST}/{item.get_absolute_url()}",
+            "thumbnail_url": f"{base}{item.poster_url}",
+            "content_url": f"{base}{item.get_absolute_url()}",
             "thumbnail_width": 720,
         }
         return item

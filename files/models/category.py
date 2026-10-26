@@ -2,6 +2,7 @@ from django.db import models
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit
 
@@ -66,7 +67,8 @@ class Category(models.Model):
 
     class Meta:
         ordering = ["title"]
-        verbose_name_plural = "Categories"
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
 
     def get_absolute_url(self):
         return f"{reverse('search')}?c={self.uid}"
@@ -142,6 +144,8 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ["title"]
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
 
     def get_absolute_url(self):
         return f"{reverse('search')}?t={self.title}"

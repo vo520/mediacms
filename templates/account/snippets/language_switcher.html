@@ -1,0 +1,91 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as AVAILABLE_LANGUAGES %}
+{% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+<div class="language-switcher" role="navigation" aria-label="{% trans 'Language' %}">
+	<button class="language-switcher-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+		<span class="material-icons language-switcher-icon" aria-hidden="true">language</span>
+		<span class="language-switcher-label">
+			{% for language in languages %}{% if language.code == LANGUAGE_CODE %}{{ language.name_local }}{% endif %}{% endfor %}
+		</span>
+		<span class="material-icons language-switcher-chevron" aria-hidden="true">expand_more</span>
+	</button>
+	<form class="language-switcher-form" action="{% url 'set_language' %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="next" value="{{ request.get_full_path }}">
+		<ul class="language-switcher-dropdown" role="listbox" aria-label="{% trans 'Language' %}">
+			{% for language in languages %}
+			<li role="option" aria-selected="{% if language.code == LANGUAGE_CODE %}true{% else %}false{% endif %}">
+				<button type="submit" name="language" value="{{ language.code }}"
+					class="language-switcher-option{% if language.code == LANGUAGE_CODE %} is-active{% endif %}">
+					{{ language.name_local }}
+				</button>
+			</li>
+			{% endfor %}
+		</ul>
+	</form>
+</div>
+<script>
+(function () {
+  // 支持页内多个切换器（每个认证页面只有一个，但防御性处理）
+  document.querySelectorAll('.language-switcher').forEach(function (widget) {
+    var trigger = widget.querySelector('.language-switcher-trigger');
+    var form = widget.querySelector('.language-switcher-form');
+    if (!trigger || !form) return;
+
+    function open() {
+      trigger.setAttribute('aria-expanded', 'true');
+      form.classList.add('is-open');
+      // 滚动到当前选中项
+      var active = form.querySelector('.language-switcher-option.is-active');
+      if (active) active.scrollIntoView({ block: 'nearest' });
+    }
+
+    function close() {
+      trigger.setAttribute('aria-expanded', 'false');
+      form.classList.remove('is-open');
+    }
+
+    function toggle() {
+      form.classList.contains('is-open') ? close() : open();
+    }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggle();
+    });
+
+    // 点选语言后显示 loading 效果
+    form.querySelectorAll('.language-switcher-option').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        trigger.setAttribute('aria-expanded', 'false');
+        form.classList.remove('is-open');
+        // 将 icon 换成旋转图标表示正在切换
+        var icon = trigger.querySelector('.language-switcher-icon');
+        if (icon) {
+          icon.textContent = 'sync';
+          icon.style.animation = 'ls-spin 0.8s linear infinite';
+        }
+      });
+    });
+
+    // 点击外部关闭
+    document.addEventListener('click', function (e) {
+      if (!widget.contains(e.target)) close();
+    });
+
+    // ESC 关闭
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { close(); trigger.focus(); }
+    });
+  });
+
+  // 旋转动画（仅注入一次）
+  if (!document.getElementById('ls-spin-style')) {
+    var s = document.createElement('style');
+    s.id = 'ls-spin-style';
+    s.textContent = '@keyframes ls-spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(s);
+  }
+})();
+</script>

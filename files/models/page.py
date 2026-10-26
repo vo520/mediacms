@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
 class Page(models.Model):
@@ -8,6 +9,10 @@ class Page(models.Model):
     description = models.TextField(blank=True)
     add_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Page")
+        verbose_name_plural = _("Pages")
 
     def __str__(self):
         return self.title
@@ -30,8 +35,8 @@ class TinyMCEMedia(models.Model):
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name = 'TinyMCE Media'
-        verbose_name_plural = 'TinyMCE Media'
+        verbose_name = _('TinyMCE Media')
+        verbose_name_plural = _('TinyMCE Media')
         ordering = ['-uploaded_at']
 
     def __str__(self):

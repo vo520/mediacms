@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
@@ -24,28 +25,30 @@ class User(AbstractUser):
         options={"quality": 75},
         blank=True,
     )
-    description = models.TextField("About me", blank=True)
+    description = models.TextField(_("About me"), blank=True)
 
-    name = models.CharField("full name", max_length=250, db_index=True)
-    date_added = models.DateTimeField("date added", default=timezone.now, db_index=True)
-    is_featured = models.BooleanField("Is featured", default=False, db_index=True)
-    is_approved = models.BooleanField("Is approved", default=False, null=True, blank=True, db_index=True)
+    name = models.CharField(_("Full name"), max_length=250, db_index=True)
+    date_added = models.DateTimeField(_("date added"), default=timezone.now, db_index=True)
+    is_featured = models.BooleanField(_("Is featured"), default=False, db_index=True)
+    is_approved = models.BooleanField(_("Is approved"), default=False, null=True, blank=True, db_index=True)
 
-    title = models.CharField("Title", max_length=250, blank=True)
-    advancedUser = models.BooleanField("advanced user", default=False, db_index=True)
+    title = models.CharField(_("Title"), max_length=250, blank=True)
+    advancedUser = models.BooleanField(_("Advanced user"), default=False, db_index=True)
     media_count = models.IntegerField(default=0)  # save number of videos
     notification_on_comments = models.BooleanField(
-        "Whether you will receive email notifications for comments added to your content",
+        _("Whether you will receive email notifications for comments added to your content"),
         default=True,
     )
-    location = models.CharField("Location", max_length=250, blank=True)
-    is_editor = models.BooleanField("MediaCMS Editor", default=False, db_index=True)
-    is_manager = models.BooleanField("MediaCMS Manager", default=False, db_index=True)
-    allow_contact = models.BooleanField("Whether allow contact will be shown on profile page", default=False)
+    location = models.CharField(_("Location"), max_length=250, blank=True)
+    is_editor = models.BooleanField(_("MediaCMS Editor"), default=False, db_index=True)
+    is_manager = models.BooleanField(_("MediaCMS Manager"), default=False, db_index=True)
+    allow_contact = models.BooleanField(_("Whether allow contact will be shown on profile page"), default=False)
 
     class Meta:
         ordering = ["-date_added", "name"]
         indexes = [models.Index(fields=["-date_added", "name"])]
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
 
     def __str__(self):
         return f"{self.name} - {self.email}"

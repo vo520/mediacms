@@ -1,0 +1,1105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 09:19+0000\n"
+"PO-Revision-Date: 2026-10-26 15:00+0800\n"
+"Last-Translator: Admin\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: cms/settings.py:496
+msgid "Arabic"
+msgstr "阿拉伯语"
+
+#: cms/settings.py:497
+msgid "Bengali"
+msgstr "孟加拉语"
+
+#: cms/settings.py:498
+msgid "Danish"
+msgstr "丹麦语"
+
+#: cms/settings.py:499
+msgid "Dutch"
+msgstr "荷兰语"
+
+#: cms/settings.py:500
+msgid "English"
+msgstr "英语"
+
+#: cms/settings.py:501
+msgid "French"
+msgstr "法语"
+
+#: cms/settings.py:502
+msgid "German"
+msgstr "德语"
+
+#: cms/settings.py:503
+msgid "Hindi"
+msgstr "印地语"
+
+#: cms/settings.py:504
+msgid "Indonesian"
+msgstr "印度尼西亚语"
+
+#: cms/settings.py:505
+msgid "Italian"
+msgstr "意大利语"
+
+#: cms/settings.py:506
+msgid "Japanese"
+msgstr "日语"
+
+#: cms/settings.py:507
+msgid "Korean"
+msgstr "韩语"
+
+#: cms/settings.py:508
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#: cms/settings.py:509
+msgid "Russian"
+msgstr "俄语"
+
+#: cms/settings.py:510
+msgid "Simplified Chinese"
+msgstr "简体中文"
+
+#: cms/settings.py:511
+msgid "Slovenian"
+msgstr "斯洛文尼亚语"
+
+#: cms/settings.py:512
+msgid "Traditional Chinese"
+msgstr "繁体中文"
+
+#: cms/settings.py:513
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: cms/settings.py:514
+msgid "Turkish"
+msgstr "土耳其语"
+
+#: cms/settings.py:515
+msgid "Greek"
+msgstr "希腊语"
+
+#: cms/settings.py:516
+msgid "Urdu"
+msgstr "乌尔都语"
+
+#: cms/settings.py:517
+msgid "Hebrew"
+msgstr "希伯来语"
+
+#: files/admin.py:294 files/apps.py:7 files/models/media.py:256
+#: templates/cms/edit_subtitle.html:43
+msgid "Media"
+msgstr "媒体"
+
+#: files/models/category.py:70
+msgid "Category"
+msgstr "分类"
+
+#: files/models/category.py:71
+msgid "Categories"
+msgstr "分类"
+
+#: files/models/category.py:147
+msgid "Tag"
+msgstr "标签"
+
+#: files/models/category.py:148
+msgid "Tags"
+msgstr "标签"
+
+#: files/models/comment.py:30
+msgid "Comment"
+msgstr "评论"
+
+#: files/models/comment.py:31
+msgid "Comments"
+msgstr "评论"
+
+#: files/models/encoding.py:43
+msgid "Encode Profile"
+msgstr "编码配置"
+
+#: files/models/encoding.py:44
+msgid "Encode Profiles"
+msgstr "编码配置"
+
+#: files/models/encoding.py:59
+msgid "Encoding"
+msgstr "编码任务"
+
+#: files/models/encoding.py:60
+msgid "Encodings"
+msgstr "编码任务"
+
+#: files/models/media.py:257
+msgid "Medias"
+msgstr "媒体"
+
+#: files/models/page.py:14
+msgid "Page"
+msgstr "页面"
+
+#: files/models/page.py:15
+msgid "Pages"
+msgstr "页面"
+
+#: files/models/page.py:38 files/models/page.py:39
+msgid "TinyMCE Media"
+msgstr "富文本媒体"
+
+#: files/models/subtitle.py:27
+#: templates/account/snippets/language_switcher.html:5
+#: templates/account/snippets/language_switcher.html:16
+msgid "Language"
+msgstr "语言"
+
+#: files/models/subtitle.py:28
+msgid "Languages"
+msgstr "语言"
+
+#: files/models/subtitle.py:51
+msgid "Caption"
+msgstr "字幕"
+
+#: files/models/subtitle.py:52
+msgid "Captions"
+msgstr "字幕"
+
+#: files/models/subtitle.py:103
+msgid "Caption Request"
+msgstr "字幕请求"
+
+#: files/models/subtitle.py:104
+msgid "Caption Requests"
+msgstr "字幕请求"
+
+#: files/models/video_data.py:70
+msgid "Trim Request"
+msgstr "裁剪请求"
+
+#: files/models/video_data.py:71
+msgid "Trim Requests"
+msgstr "裁剪请求"
+
+#: identity_providers/admin.py:353 identity_providers/admin.py:354
+msgid "User Logs"
+msgstr "用户日志"
+
+#: identity_providers/admin.py:356
+msgid "User Account"
+msgstr "用户账号"
+
+#: identity_providers/admin.py:357
+msgid "User Accounts"
+msgstr "用户账号"
+
+#: identity_providers/admin.py:363
+msgid "ID Provider"
+msgstr "ID 提供商"
+
+#: identity_providers/admin.py:364
+msgid "ID Providers"
+msgstr "ID 提供商"
+
+#: identity_providers/admin.py:365 identity_providers/apps.py:8
+msgid "Identity Providers"
+msgstr "身份提供商"
+
+#: identity_providers/models.py:122
+msgid "Login Option"
+msgstr "登录选项"
+
+#: identity_providers/models.py:123
+msgid "Login Options"
+msgstr "登录选项"
+
+#: lti/apps.py:8
+msgid "LTI 1.3 Integration"
+msgstr "LTI 1.3 Integration"
+
+#: lti/models.py:34
+msgid "LTI Platform"
+msgstr "LTI 平台"
+
+#: lti/models.py:35
+msgid "LTI Platforms"
+msgstr "LTI 平台"
+
+#: lti/models.py:70
+msgid "LTI Resource Link"
+msgstr "LTI 资源链接"
+
+#: lti/models.py:71
+msgid "LTI Resource Links"
+msgstr "LTI 资源链接"
+
+#: lti/models.py:93
+msgid "LTI User Mapping"
+msgstr "LTI 用户映射"
+
+#: lti/models.py:94
+msgid "LTI User Mappings"
+msgstr "LTI 用户映射"
+
+#: lti/models.py:120
+msgid "LTI Role Mapping"
+msgstr "LTI 角色映射"
+
+#: lti/models.py:121
+msgid "LTI Role Mappings"
+msgstr "LTI 角色映射"
+
+#: lti/models.py:149
+msgid "LTI Launch Log"
+msgstr "LTI 启动日志"
+
+#: lti/models.py:150
+msgid "LTI Launch Logs"
+msgstr "LTI 启动日志"
+
+#: lti/models.py:179 lti/models.py:180
+msgid "LTI Tool Keys"
+msgstr "LTI 工具密钥"
+
+#: migrationservice/apps.py:8
+msgid "Migration Service"
+msgstr "Migration Service"
+
+#: migrationservice/models.py:118
+msgid "Migration"
+msgstr "迁移"
+
+#: migrationservice/models.py:119
+msgid "Migrations"
+msgstr "迁移"
+
+#: migrationservice/models.py:204
+msgid "Migration Record"
+msgstr "迁移记录"
+
+#: migrationservice/models.py:205
+msgid "Migration Records"
+msgstr "迁移记录"
+
+#: templates/404.html:4
+msgid "error"
+msgstr "错误"
+
+#: templates/404.html:7
+msgid "you are lost!"
+msgstr "页面不存在！"
+
+#: templates/account/account_inactive.html:7
+#: templates/account/account_inactive.html:14
+msgid "Account Inactive"
+msgstr "账号已停用"
+
+#: templates/account/account_inactive.html:16
+msgid "This account is inactive."
+msgstr "该账号已被停用。"
+
+#: templates/account/custom_login_selector.html:3
+#: templates/account/custom_login_selector.html:87
+#: templates/account/login.html:4 templates/account/login.html:11
+#: templates/account/login.html:25 templates/socialaccount/login.html:5
+#: templates/socialaccount/login_redirect.html:5
+msgid "Sign In"
+msgstr "登录"
+
+#: templates/account/custom_login_selector.html:88
+msgid "Choose your preferred login method."
+msgstr "请选择您的登录方式。"
+
+#: templates/account/custom_login_selector.html:121
+msgid "Sign In with password"
+msgstr "账号密码登录"
+
+#: templates/account/email.html:7 templates/admin/base.html:157
+msgid "Account"
+msgstr "账号"
+
+#: templates/account/email.html:14
+msgid "E-mail Addresses"
+msgstr "电子邮件地址"
+
+#: templates/account/email.html:17
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "以下电子邮件地址已与您的账号关联："
+
+#: templates/account/email.html:31
+msgid "Verified"
+msgstr "已验证"
+
+#: templates/account/email.html:33
+msgid "Unverified"
+msgstr "未验证"
+
+#: templates/account/email.html:36
+msgid "Primary"
+msgstr "主要"
+
+#: templates/account/email.html:42
+msgid "Make Primary"
+msgstr "设为主要"
+
+#: templates/account/email.html:43
+msgid "Re-send Verification"
+msgstr "重新发送验证邮件"
+
+#: templates/account/email.html:44
+#: templates/admin/socialaccount/socialapp/custom_tabular_inline.html:106
+#: templates/admin/socialaccount/socialapp/custom_tabular_inline_for_groups.html:112
+#: templates/socialaccount/connections.html:40
+msgid "Remove"
+msgstr "移除"
+
+#: templates/account/email.html:51
+msgid "Warning:"
+msgstr "警告："
+
+#: templates/account/email.html:51
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"您目前尚未设置电子邮件地址。建议您添加一个邮件地址，以便接收通知、重置密码"
+"等。"
+
+#: templates/account/email.html:54
+msgid "Add E-mail Address"
+msgstr "添加电子邮件地址"
+
+#: templates/account/email.html:59
+msgid "Add E-mail"
+msgstr "添加邮箱"
+
+#: templates/account/email.html:69
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "您确定要删除所选的电子邮件地址吗？"
+
+#: templates/account/email/email_confirmation_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has given yours "
+"as an e-mail address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+msgstr ""
+"您好，来自 %(site_name)s！\n"
+"\n"
+"您收到此邮件是因为用户 %(user_display)s 将您的邮箱地址用于绑定其账号。\n"
+"\n"
+"如果这是正确的，请访问以下链接确认：%(activate_url)s\n"
+
+#: templates/account/email/email_confirmation_message.txt:7
+#, python-format
+msgid ""
+"Thank you from %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+"感谢您使用 %(site_name)s！\n"
+"%(site_domain)s"
+
+#: templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr "请确认您的电子邮件地址"
+
+#: templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+"您好，来自 %(site_name)s！\n"
+"\n"
+"您收到此邮件是因为您或他人请求重置您账号的密码。\n"
+"如果您没有发起此请求，请忽略此邮件。点击以下链接重置密码。"
+
+#: templates/account/email/password_reset_key_message.txt:8
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr "如果您忘记了，您的用户名是 %(username)s。"
+
+#: templates/account/email/password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr "密码重置邮件"
+
+#: templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+"请确认 <a href=\"mailto:%(email)s\">%(email)s</a> 是用户 %(user_display)s 的"
+"电子邮件地址。"
+
+#: templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr "确认"
+
+#: templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a "
+"href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+"此邮件确认链接已过期或无效。请<a href=\"%(email_url)s\">重新发送邮件确认请求"
+"</a>。"
+
+#: templates/account/login.html:16
+#, python-format
+msgid ""
+"If you have not created an account yet, then please %(link)ssign "
+"up%(end_link)s first."
+msgstr "如果您还没有账号，请先 %(link)s注册%(end_link)s。"
+
+#: templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr "您无法删除主要电子邮件地址（%(email)s）。"
+
+#: templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr "确认邮件已发送至 %(email)s。"
+
+#: templates/account/messages/email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr "您已确认 %(email)s。"
+
+#: templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr "已删除电子邮件地址 %(email)s。"
+
+#: templates/account/messages/logged_in.txt:5
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr "已成功以 %(name)s 身份登录。"
+
+#: templates/account/messages/logged_out.txt:2
+msgid "You have signed out."
+msgstr "您已退出登录。"
+
+#: templates/account/messages/password_changed.txt:2
+msgid "Password successfully changed."
+msgstr "密码修改成功。"
+
+#: templates/account/messages/password_set.txt:2
+msgid "Password successfully set."
+msgstr "密码设置成功。"
+
+#: templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr "主要电子邮件地址已设置。"
+
+#: templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr "您的主要电子邮件地址必须经过验证。"
+
+#: templates/account/password_change.html:8
+#: templates/account/password_change.html:15
+#: templates/account/password_change.html:20
+#: templates/account/password_reset_from_key.html:7
+#: templates/account/password_reset_from_key.html:14
+#: templates/account/password_reset_from_key_done.html:7
+#: templates/account/password_reset_from_key_done.html:14
+msgid "Change Password"
+msgstr "修改密码"
+
+#: templates/account/password_reset.html:12
+#: templates/account/password_reset_done.html:8
+#: templates/account/password_reset_done.html:16
+msgid "Password Reset"
+msgstr "重置密码"
+
+#: templates/account/password_reset.html:17
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"忘记密码了吗？请在下方输入您的电子邮件地址，我们将发送重置密码的邮件给您。"
+
+#: templates/account/password_reset.html:22
+msgid "Reset My Password"
+msgstr "重置我的密码"
+
+#: templates/account/password_reset.html:25
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr "如果您在重置密码时遇到任何问题，请联系我们。"
+
+#: templates/account/password_reset_done.html:22
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr "我们已向您发送了一封邮件。如果您在几分钟内未收到，请联系我们。"
+
+#: templates/account/password_reset_from_key.html:14
+msgid "Bad Token"
+msgstr "无效令牌"
+
+#: templates/account/password_reset_from_key.html:18
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+"密码重置链接无效，可能已被使用。请重新申请<a href=\"%(passwd_reset_url)s\">密"
+"码重置</a>。"
+
+#: templates/account/password_reset_from_key.html:24
+msgid "change password"
+msgstr "修改密码"
+
+#: templates/account/password_reset_from_key.html:27
+#: templates/account/password_reset_from_key_done.html:15
+msgid "Your password is now changed."
+msgstr "您的密码已修改成功。"
+
+#: templates/account/password_set.html:7 templates/account/password_set.html:14
+#: templates/account/password_set.html:19
+msgid "Set Password"
+msgstr "设置密码"
+
+#: templates/account/signup.html:4 templates/account/signup.html:11
+#: templates/account/signup.html:25 templates/socialaccount/signup.html:15
+#: templates/socialaccount/signup.html:31
+msgid "Sign Up"
+msgstr "注册"
+
+#: templates/account/signup.html:16
+#, python-format
+msgid "Already have an account? Then please %(link)ssign in%(end_link)s."
+msgstr "已有账号？请%(link)s登录%(end_link)s。"
+
+#: templates/account/signup_closed.html:7
+#: templates/account/signup_closed.html:14
+msgid "Sign Up Closed"
+msgstr "注册已关闭"
+
+#: templates/account/signup_closed.html:16
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "抱歉，注册功能目前已关闭。"
+
+#: templates/account/snippets/already_logged_in.html:5
+msgid "Note"
+msgstr "提示"
+
+#: templates/account/snippets/already_logged_in.html:5
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr "您已以 %(user_display)s 身份登录。"
+
+#: templates/account/verification_sent.html:11
+msgid "Verify Your E-mail Address"
+msgstr "验证您的电子邮件地址"
+
+#: templates/account/verification_sent.html:13
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"我们已向您发送验证邮件。请点击邮件中的链接完成注册。如果几分钟内未收到，请联"
+"系我们。"
+
+#: templates/account/verified_email_required.html:13
+msgid ""
+"This part of the site requires us to verify that\n"
+"\t\tyou are who you claim to be. For this purpose, we require that you\n"
+"\t\tverify ownership of your e-mail address. "
+msgstr "此页面需要验证您的身份。为此，我们需要您验证您的电子邮件地址所有权。"
+
+#: templates/account/verified_email_required.html:17
+msgid ""
+"We have sent an e-mail to you for\n"
+"\t\tverification. Please click on the link inside this e-mail. Please\n"
+"\t\tcontact us if you do not receive it within a few minutes."
+msgstr ""
+"我们已向您发送验证邮件。请点击邮件中的链接。如果几分钟内未收到，请联系我们。"
+
+#: templates/account/verified_email_required.html:21
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+"<strong>提示：</strong>您仍然可以<a href=\"%(email_url)s\">修改您的邮箱地址</"
+"a>。"
+
+#: templates/admin/base.html:96
+msgid "Search"
+msgstr "搜索"
+
+#: templates/admin/base.html:160
+msgid "Change password"
+msgstr "修改密码"
+
+#: templates/admin/base.html:165
+msgid "Log out"
+msgstr "退出登录"
+
+#: templates/admin/base.html:176
+msgid "See Profile"
+msgstr "查看个人资料"
+
+#: templates/admin/base.html:331
+msgid "Jazzmin version"
+msgstr "Jazzmin 版本"
+
+#: templates/admin/base.html:334
+msgid "Copyright"
+msgstr "版权所有"
+
+#: templates/admin/base.html:334
+msgid "All rights reserved."
+msgstr "保留所有权利。"
+
+#: templates/admin/base.html:350
+msgid "UI Configuration"
+msgstr "界面配置"
+
+#: templates/admin/base.html:354
+msgid "Copy this info your settings file to persist these UI changes"
+msgstr "将此配置复制到 settings 文件中以保存界面更改"
+
+#: templates/admin/base.html:358
+msgid "Close"
+msgstr "关闭"
+
+#: templates/admin/socialaccount/socialapp/custom_tabular_inline.html:61
+#: templates/admin/socialaccount/socialapp/custom_tabular_inline_for_groups.html:67
+msgid "View on site"
+msgstr "在站点中查看"
+
+#: templates/cms/add_subtitle.html:6
+msgid "Add subtitle"
+msgstr "添加字幕"
+
+#: templates/cms/add_subtitle.html:16
+msgid "Request Automatic Transcription and Translation"
+msgstr "申请自动转录与翻译"
+
+#: templates/cms/add_subtitle.html:42
+msgid "Edit existing Captions"
+msgstr "编辑现有字幕"
+
+#: templates/cms/channel_edit.html:5
+msgid "Edit channel"
+msgstr "编辑频道"
+
+#: templates/cms/channel_edit.html:10
+msgid "Edit Channel"
+msgstr "编辑频道"
+
+#: templates/cms/channel_edit.html:13
+msgid "Update Channel"
+msgstr "更新频道"
+
+#: templates/cms/contact.html:4 templates/cms/contact.html:48
+msgid "Contact us"
+msgstr "联系我们"
+
+#: templates/cms/contact.html:52
+msgid "Submit"
+msgstr "提交"
+
+#: templates/cms/edit_category.html:5 templates/cms/edit_category.html:10
+msgid "Edit category"
+msgstr "编辑分类"
+
+#: templates/cms/edit_category.html:11
+msgid ""
+"Changing the title changes how this category is listed. The link to it does "
+"not change, because it is built from an identifier that stays as it is."
+msgstr ""
+"修改标题会改变该分类的显示名称。链接地址不会改变，因为它基于固定的标识符生"
+"成。"
+
+#: templates/cms/edit_category.html:15
+msgid "Update category"
+msgstr "更新分类"
+
+#: templates/cms/edit_category.html:16
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/cms/edit_media.html:6
+msgid "Edit media"
+msgstr "编辑媒体"
+
+#: templates/cms/edit_subtitle.html:5
+msgid "Edit subtitle"
+msgstr "编辑字幕"
+
+#: templates/cms/edit_subtitle.html:23
+msgid "Confirm deletion"
+msgstr "确认删除"
+
+#: templates/cms/edit_subtitle.html:26
+msgid "Are you sure you want to delete the subtitle?"
+msgstr "您确定要删除此字幕吗？"
+
+#: templates/cms/edit_subtitle.html:30
+msgid "DELETE SUBTITLE"
+msgstr "删除字幕"
+
+#: templates/cms/edit_subtitle.html:47
+msgid "SAVE"
+msgstr "保存"
+
+#: templates/cms/edit_subtitle.html:48
+msgid "DOWNLOAD"
+msgstr "下载"
+
+#: templates/cms/edit_subtitle.html:49
+msgid "DELETE"
+msgstr "删除"
+
+#: templates/cms/manage_comments.html:5 templates/cms/manage_comments.html:9
+msgid "Manage comments"
+msgstr "管理评论"
+
+#: templates/cms/manage_media.html:5 templates/cms/manage_media.html:9
+msgid "Manage media"
+msgstr "管理媒体"
+
+#: templates/cms/manage_users.html:5 templates/cms/manage_users.html:9
+msgid "Manage users"
+msgstr "管理用户"
+
+#: templates/cms/media.html:139
+msgid "This media type is not supported."
+msgstr "不支持此媒体类型。"
+
+#: templates/cms/partials/media_publish_state.html:4
+msgid "State"
+msgstr "状态"
+
+#: templates/cms/partials/media_publish_state.html:12
+msgid "Private"
+msgstr "私密"
+
+#: templates/cms/partials/media_publish_state.html:19
+msgid "Unlisted"
+msgstr "不公开"
+
+#: templates/cms/partials/media_publish_state.html:26
+msgid "Shared"
+msgstr "已分享"
+
+#: templates/cms/partials/media_publish_state.html:33
+msgid "Public"
+msgstr "公开"
+
+#: templates/cms/partials/media_publish_state.html:38
+msgid ""
+"To publish an external link to the media, click Publish Media below to view "
+"the media, right-click the viewing window, next copy URL or embed code, and "
+"add this to your external portal or client."
+msgstr ""
+"如需发布媒体的外部链接，请点击下方『发布媒体』查看媒体，右键播放窗口，复制 "
+"URL 或嵌入代码，并添加到您的外部平台或客户端。"
+
+#: templates/cms/partials/media_publish_state.html:47
+msgid ""
+"To share media with someone, go to My Media &gt; select media &gt; Bulk "
+"Actions &gt; Share with&hellip;"
+msgstr ""
+"如需与他人分享媒体，请前往『我的媒体』 &gt; 选择媒体 &gt; 批量操作 &gt; 分享"
+"给..."
+
+#: templates/cms/partials/media_publish_state.html:57
+msgid ""
+"I understand that changing to Private will remove all sharing. Currently "
+"this media is shared by me with other users (visible in 'My Media &gt; "
+"Shared by Me' page)."
+msgstr ""
+"我了解，将状态改为私密将移除所有分享设置。当前此媒体已被我分享给其他用户（可"
+"在『我的媒体 &gt; 我分享的』页面查看）。"
+
+#: templates/cms/partials/media_publish_state.html:58
+msgid ""
+"I understand that unchecking Shared will affect existing sharing settings."
+msgstr "我了解，取消『已分享』状态将影响现有的分享设置。"
+
+#: templates/cms/publish_media.html:6
+msgid "Publish media"
+msgstr "发布媒体"
+
+#: templates/cms/replace_media.html:6
+msgid "Replace media"
+msgstr "替换媒体"
+
+#: templates/cms/replace_media.html:16
+msgid "Important Information"
+msgstr "重要提示"
+
+#: templates/cms/replace_media.html:17
+msgid ""
+"The new file will be processed but metadata, such as: title, tags, date "
+"produced, description, poster image, captions, comments and chapters, will "
+"be preserved. Adjust metadata individually, if needed."
+msgstr ""
+"新文件将被处理，但标题、标签、制作日期、描述、封面图、字幕、评论和章节等元数"
+"据将被保留。如需修改，请单独调整。"
+
+#: templates/cms/user.html:22
+msgid "No such user"
+msgstr "用户不存在"
+
+#: templates/cms/user_edit.html:4
+msgid "Edit profile"
+msgstr "编辑个人资料"
+
+#: templates/cms/user_edit.html:10
+msgid "Edit Profile"
+msgstr "编辑个人资料"
+
+#: templates/cms/user_edit.html:14
+msgid "Update Profile"
+msgstr "更新个人资料"
+
+#: templates/cms/user_edit.html:19
+msgid "Danger Zone"
+msgstr "危险操作"
+
+#: templates/cms/user_edit.html:22 templates/cms/user_edit.html:25
+msgid "Delete Account"
+msgstr "删除账号"
+
+#: templates/cms/user_edit.html:23
+msgid "This will permanently remove all data, including media and playlists."
+msgstr "这将永久删除所有数据，包括媒体和播放列表。"
+
+#: templates/cms/user_needs_approval.html:4
+msgid "Account needs approval"
+msgstr "账号待审核"
+
+#: templates/cms/user_needs_approval.html:9
+msgid "Account Pending Approval"
+msgstr "账号待审核"
+
+#: templates/cms/user_needs_approval.html:10
+msgid "Your account is currently pending approval from an administrator."
+msgstr "您的账号正在等待管理员审核。"
+
+#: templates/cms/user_needs_approval.html:11
+msgid "Logout"
+msgstr "退出登录"
+
+#: templates/socialaccount/authentication_error.html:5
+#: templates/socialaccount/authentication_error.html:9
+msgid "Third-Party Login Failure"
+msgstr "第三方登录失败"
+
+#: templates/socialaccount/authentication_error.html:12
+msgid ""
+"An error occurred while attempting to login via your third-party account."
+msgstr "通过第三方账号登录时发生错误。"
+
+#: templates/socialaccount/connections.html:5
+#: templates/socialaccount/connections.html:9
+msgid "Account Connections"
+msgstr "账号关联"
+
+#: templates/socialaccount/connections.html:13
+msgid ""
+"You can sign in to your account using any of the following third-party "
+"accounts:"
+msgstr "您可以使用以下任意第三方账号登录："
+
+#: templates/socialaccount/connections.html:46
+msgid "You currently have no third-party accounts connected to this account."
+msgstr "您目前没有关联任何第三方账号。"
+
+#: templates/socialaccount/connections.html:50
+msgid "Add a Third-Party Account"
+msgstr "添加第三方账号"
+
+#: templates/socialaccount/email/account_connected_message.txt:4
+#, python-format
+msgid ""
+"A third-party account from %(provider)s has been connected to your account."
+msgstr "来自 %(provider)s 的第三方账号已与您的账号关联。"
+
+#: templates/socialaccount/email/account_connected_subject.txt:3
+msgid "Third-Party Account Connected"
+msgstr "第三方账号已关联"
+
+#: templates/socialaccount/email/account_disconnected_message.txt:4
+#, python-format
+msgid ""
+"A third-party account from %(provider)s has been disconnected from your "
+"account."
+msgstr "来自 %(provider)s 的第三方账号已与您的账号解除关联。"
+
+#: templates/socialaccount/email/account_disconnected_subject.txt:3
+msgid "Third-Party Account Disconnected"
+msgstr "第三方账号已解除关联"
+
+#: templates/socialaccount/login.html:15
+#, python-format
+msgid "Connect %(provider)s"
+msgstr "连接 %(provider)s"
+
+#: templates/socialaccount/login.html:18
+#, python-format
+msgid "You are about to connect a new third-party account from %(provider)s."
+msgstr "您即将连接来自 %(provider)s 的新第三方账号。"
+
+#: templates/socialaccount/login.html:22
+#, python-format
+msgid "Sign In Via %(provider)s"
+msgstr "通过 %(provider)s 登录"
+
+#: templates/socialaccount/login.html:25
+#, python-format
+msgid "You are about to sign in using a third-party account from %(provider)s."
+msgstr "您即将使用来自 %(provider)s 的第三方账号登录。"
+
+#: templates/socialaccount/login.html:32
+#: templates/socialaccount/login_redirect.html:10
+msgid "Continue"
+msgstr "继续"
+
+#: templates/socialaccount/login_cancelled.html:5
+#: templates/socialaccount/login_cancelled.html:9
+msgid "Login Cancelled"
+msgstr "登录已取消"
+
+#: templates/socialaccount/login_cancelled.html:13
+#, python-format
+msgid ""
+"You decided to cancel logging in to our site using one of your existing "
+"accounts. If this was a mistake, please proceed to <a "
+"href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+"您取消了使用现有账号登录本站。如果这是误操作，请前往<a "
+"href=\"%(login_url)s\">登录</a>。"
+
+#: templates/socialaccount/messages/account_connected.txt:2
+msgid "The third-party account has been connected."
+msgstr "第三方账号已成功关联。"
+
+#: templates/socialaccount/messages/account_connected_other.txt:2
+msgid "The third-party account is already connected to a different account."
+msgstr "该第三方账号已与其他账号关联。"
+
+#: templates/socialaccount/messages/account_disconnected.txt:2
+msgid "The third-party account has been disconnected."
+msgstr "第三方账号已解除关联。"
+
+#: templates/socialaccount/signup.html:6
+msgid "Signup"
+msgstr "注册"
+
+#: templates/socialaccount/signup.html:18
+#, python-format
+msgid ""
+"You are about to use your %(provider_name)s account to login to\n"
+"%(site_name)s. As a final step, please complete the following form:"
+msgstr ""
+"您即将使用 %(provider_name)s 账号登录 %(site_name)s。作为最后一步，请填写以下"
+"表单："
+
+#: templates/socialaccount/snippets/login.html:10
+msgid "Or use a third-party"
+msgstr "或使用第三方账号"
+
+#: users/apps.py:7 users/models.py:51
+msgid "Users"
+msgstr "用户"
+
+#: users/models.py:28
+msgid "About me"
+msgstr "关于我"
+
+#: users/models.py:30
+msgid "Full name"
+msgstr "全名"
+
+#: users/models.py:31
+msgid "date added"
+msgstr "添加日期"
+
+#: users/models.py:32
+msgid "Is featured"
+msgstr "是否精选"
+
+#: users/models.py:33
+msgid "Is approved"
+msgstr "是否已审批"
+
+#: users/models.py:35
+msgid "Title"
+msgstr "头衔"
+
+#: users/models.py:36
+msgid "Advanced user"
+msgstr "高级用户"
+
+#: users/models.py:39
+msgid ""
+"Whether you will receive email notifications for comments added to your "
+"content"
+msgstr "是否接收评论邮件通知"
+
+#: users/models.py:42
+msgid "Location"
+msgstr "位置"
+
+#: users/models.py:43
+msgid "MediaCMS Editor"
+msgstr "MediaCMS 编辑员"
+
+#: users/models.py:44
+msgid "MediaCMS Manager"
+msgstr "MediaCMS 管理员"
+
+#: users/models.py:45
+msgid "Whether allow contact will be shown on profile page"
+msgstr "是否允许在个人资料页显示联系方式"
+
+#: users/models.py:50
+msgid "User"
+msgstr "用户"
+
+#: users/validators.py:11
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and '_', '.', '@', '-'."
+msgstr "请输入有效的用户名。只能包含英文字母、数字以及 '_'、'.'、'@'、'-'。"
+
+#: users/validators.py:18
+msgid ""
+"Enter a valid username. This value may contain UTF-8 characters except those "
+"reserved for file systems"
+msgstr "请输入有效的用户名。可包含 UTF-8 字符，但不能含有文件系统保留字符。"

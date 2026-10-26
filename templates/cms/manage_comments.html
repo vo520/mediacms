@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block headtitle %}Manage comments - {{PORTAL_NAME}}{% endblock headtitle %}
+{% block headtitle %}{% trans "Manage comments" %} - {{PORTAL_NAME}}{% endblock headtitle %}
 
 {% block headermeta %}
 
-<meta property="og:title" content="Manage comments - {{PORTAL_NAME}}">
+<meta property="og:title" content="{% trans "Manage comments" %} - {{PORTAL_NAME}}">
 <meta property="og:type" content="website">
 <meta property="og:description" content="">
 

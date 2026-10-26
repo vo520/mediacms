@@ -38,5 +38,14 @@ def custom_login_view(request):
 
     login_options = []
     for option in LoginOption.objects.filter(active=True):
-        login_options.append({'url': option.url, 'title': option.title})
+        url = option.url
+        # Detect option type so the template can render the right button style
+        is_wechat = 'weixin' in url or 'wechat' in url.lower()
+        is_internal = 'login_system' in url or url.rstrip('/') == reverse('login_system').rstrip('/')
+        login_options.append({
+            'url': url,
+            'title': option.title,
+            'is_wechat': is_wechat,
+            'is_internal': is_internal,
+        })
     return render(request, 'account/custom_login_selector.html', {'login_options': login_options})

@@ -1,14 +1,19 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block headtitle %} | Sign Up{% endblock headtitle %}
+{% block headtitle %} | {% trans "Sign Up" %}{% endblock headtitle %}
 
 {% block innercontent %}
 <div class="user-action-form-wrap">
     <div class="user-action-form-inner">
+        {% include "account/snippets/language_switcher.html" %}
 
-		<h1>Sign Up</h1>
+		<h1>{% trans "Sign Up" %}</h1>
 
-		<p>Already have an account? Then please <a href="{{ login_url }}">sign in</a>.</p>
+		{% comment %}allauth keys this sentence on %(link)s / %(end_link)s, so it has to be rebuilt that way to pick its translations up{% endcomment %}
+		{% with link='<a href="'|add:login_url|add:'">'|safe end_link='</a>'|safe %}
+		<p>{% blocktrans %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktrans %}</p>
+		{% endwith %}
 
 		<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
 			{% csrf_token %}
@@ -16,7 +21,7 @@
 			{% if redirect_field_value %}
 				<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 			  {% endif %}
-			  <button type="submit">Sign Up &raquo;</button>
+			  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
 		</form>
 
     </div>

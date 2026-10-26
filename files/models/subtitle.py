@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from .. import helpers
 from .utils import MEDIA_ENCODING_STATUS, subtitles_file_path
@@ -23,6 +24,8 @@ class Language(models.Model):
 
     class Meta:
         ordering = ["id"]
+        verbose_name = _("Language")
+        verbose_name_plural = _("Languages")
 
     def __str__(self):
         return f"{self.code}-{self.title}"
@@ -45,8 +48,8 @@ class Subtitle(models.Model):
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = "Caption"
-        verbose_name_plural = "Captions"
+        verbose_name = _("Caption")
+        verbose_name_plural = _("Captions")
         ordering = ["language__title"]
 
     def __str__(self):
@@ -97,8 +100,8 @@ class TranscriptionRequest(models.Model):
     logs = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = "Caption Request"
-        verbose_name_plural = "Caption Requests"
+        verbose_name = _("Caption Request")
+        verbose_name_plural = _("Caption Requests")
 
     def __str__(self):
         return f"Transcription request for {self.media.title} - {self.status}"

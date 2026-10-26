@@ -6,6 +6,7 @@ from django.core.files import File
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 from .. import helpers
 from .utils import (
@@ -39,6 +40,8 @@ class EncodeProfile(models.Model):
 
     class Meta:
         ordering = ["resolution"]
+        verbose_name = _("Encode Profile")
+        verbose_name_plural = _("Encode Profiles")
 
 
 class Encoding(models.Model):
@@ -51,6 +54,10 @@ class Encoding(models.Model):
     chunk = models.BooleanField(default=False, db_index=True, help_text="is chunk?")
 
     chunk_file_path = models.CharField(max_length=400, blank=True)
+
+    class Meta:
+        verbose_name = _("Encoding")
+        verbose_name_plural = _("Encodings")
 
     chunks_info = models.TextField(blank=True)
 

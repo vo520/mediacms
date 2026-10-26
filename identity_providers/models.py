@@ -1,6 +1,7 @@
 from allauth.socialaccount.models import SocialApp
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class IdentityProviderUserLog(models.Model):
@@ -118,8 +119,8 @@ class LoginOption(models.Model):
 
     class Meta:
         ordering = ['ordering']
-        verbose_name = "Login Option"
-        verbose_name_plural = "Login Options"
+        verbose_name = _("Login Option")
+        verbose_name_plural = _("Login Options")
 
     def __str__(self):
         return self.title

@@ -24,6 +24,16 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('docs/api/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
+
+# When USE_IDENTITY_PROVIDERS is enabled, intercept /accounts/login/ before allauth
+if getattr(settings, 'USE_IDENTITY_PROVIDERS', False):
+    from files.views.auth import custom_login_view
+    urlpatterns += [
+        re_path(r"^accounts/login/?$", custom_login_view, name='login'),
+    ]
+
+urlpatterns += [
     re_path(r"^accounts/", include("allauth.urls")),
     re_path(r"^lti/", include("lti.urls")),
     re_path(r"^api-auth/", include("rest_framework.urls")),

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block headtitle %}Contact us - {{PORTAL_NAME}}{% endblock headtitle %}
+{% block headtitle %}{% trans "Contact us" %} - {{PORTAL_NAME}}{% endblock headtitle %}
 
 {% block headermeta %}
 
@@ -44,11 +45,11 @@
         {% if success_msg %}
             <h1>{{success_msg}}<h1>
         {% else %}
-            <h1>Contact us</h1>
+            <h1>{% trans "Contact us" %}</h1>
             <form enctype="multipart/form-data" action="" method="post" class="post-form">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="primaryAction" type="submit">Submit</button>
+                <button class="primaryAction" type="submit">{% trans "Submit" %}</button>
             </form>
         {% endif %}
     </div>

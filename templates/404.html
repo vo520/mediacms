@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block headtitle %} - error{% endblock headtitle %}
+{% block headtitle %} - {% trans "error" %}{% endblock headtitle %}
 
 {% block innercontent %}
-	<p>you are lost!</p>
+	<p>{% trans "you are lost!" %}</p>
 {% endblock %}
 
 

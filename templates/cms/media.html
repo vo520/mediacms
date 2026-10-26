@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block headtitle %}{% if media_object %}{{media_object.title}} - {% endif %}{{PORTAL_NAME}}{% endblock headtitle %}
 
@@ -135,7 +136,7 @@
     {% else %}
         <div class="user-action-form-wrap">
             <div class="user-action-form-inner">
-                This media type is not supported.
+                {% trans "This media type is not supported." %}
             </div>
         </div>
     {% endif %}

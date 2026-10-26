@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 from tinymce.widgets import TinyMCE
 
 from rbac.models import RBACGroup
@@ -290,4 +291,4 @@ admin.site.register(Language, LanguageAdmin)
 admin.site.register(VideoTrimRequest, VideoTrimRequestAdmin)
 admin.site.register(TranscriptionRequest, TranscriptionRequestAdmin)
 
-Media._meta.app_config.verbose_name = "Media"
+Media._meta.app_config.verbose_name = _("Media")

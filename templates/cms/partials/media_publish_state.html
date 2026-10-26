@@ -1,6 +1,7 @@
+{% load i18n %}
 <div class="form-group{% if form.state.errors or form.confirm_state.errors %} has-error{% endif %}">
     <div class="control-label-container">
-        <label class="control-label">State</label>
+        <label class="control-label">{% trans "State" %}</label>
     </div>
     <div class="controls">
         <div class="state-options">
@@ -8,33 +9,33 @@
             <label class="state-option">
                 <input type="radio" name="state" value="private"
                        {% if form.state.value == 'private' %}checked{% endif %}>
-                Private
+                {% trans "Private" %}
             </label>
             {% endif %}{% endfor %}
             {% for val, lbl in form.fields.state.choices %}{% if val == 'unlisted' %}
             <label class="state-option">
                 <input type="radio" name="state" value="unlisted"
                        {% if form.state.value == 'unlisted' %}checked{% endif %}>
-                Unlisted
+                {% trans "Unlisted" %}
             </label>
             {% endif %}{% endfor %}
             {% if form.fields.shared %}
             <label class="state-option shared-option">
                 <input type="checkbox" name="shared" id="id_shared"
                        {% if form.shared.value %}checked{% endif %}>
-                Shared
+                {% trans "Shared" %}
             </label>
             {% endif %}
             {% for val, lbl in form.fields.state.choices %}{% if val == 'public' %}
             <label class="state-option">
                 <input type="radio" name="state" value="public"
                        {% if form.state.value == 'public' %}checked{% endif %}>
-                Public
+                {% trans "Public" %}
             </label>
             {% endif %}{% endfor %}
         </div>
         <div id="unlisted-hint" style="display:none; margin-top:0.75rem; font-size:0.875rem; color:#0c5460; padding:0.5rem 0.75rem; background:#d1ecf1; border:1px solid #bee5eb; border-radius:4px;">
-            To publish an external link to the media, click Publish Media below to view the media, right-click the viewing window, next copy URL or embed code, and add this to your external portal or client.
+            {% trans "To publish an external link to the media, click Publish Media below to view the media, right-click the viewing window, next copy URL or embed code, and add this to your external portal or client." %}
         </div>
         {% if form.state.errors %}
         <div class="error-container" style="margin-top:0.5rem;">
@@ -43,7 +44,7 @@
         {% endif %}
         {% if form.fields.shared %}
         <div id="shared-info" style="display:none; margin-top:0.5rem; font-size:0.875rem; color:#555;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>To share media with someone, go to My Media &gt; select media &gt; Bulk Actions &gt; Share with&hellip;
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>{% blocktrans %}To share media with someone, go to My Media &gt; select media &gt; Bulk Actions &gt; Share with&hellip;{% endblocktrans %}
         </div>
         {% endif %}
     </div>
@@ -53,8 +54,8 @@
             <input type="checkbox" name="confirm_state" id="id_confirm_state"
                    {% if form.confirm_state.value %}checked{% endif %}
                    style="margin-top:3px; flex-shrink:0;">
-            <span id="shared-deselect-msg-private">I understand that changing to Private will remove all sharing. Currently this media is shared by me with other users (visible in 'My Media &gt; Shared by Me' page).</span>
-            <span id="shared-deselect-msg-other" style="display:none;">I understand that unchecking Shared will affect existing sharing settings.</span>
+            <span id="shared-deselect-msg-private">{% blocktrans %}I understand that changing to Private will remove all sharing. Currently this media is shared by me with other users (visible in 'My Media &gt; Shared by Me' page).{% endblocktrans %}</span>
+            <span id="shared-deselect-msg-other" style="display:none;">{% trans "I understand that unchecking Shared will affect existing sharing settings." %}</span>
         </label>
         {% if form.confirm_state.errors %}
         <div style="margin-top:0.5rem;">

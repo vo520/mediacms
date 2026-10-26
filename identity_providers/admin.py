@@ -6,6 +6,7 @@ from allauth.socialaccount.models import SocialAccount, SocialApp, SocialToken
 from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from identity_providers.forms import ImportCSVsForm
 from identity_providers.models import (
@@ -133,7 +134,7 @@ class CustomSocialAppAdmin(SocialAppAdmin):
 
     change_form_template = 'admin/socialaccount/socialapp/change_form.html'
     list_display = ('get_config_name', 'get_protocol')
-    fields = ('provider', 'provider_id', 'name', 'client_id', 'sites', 'groups_csv', 'categories_csv')
+    fields = ('provider', 'provider_id', 'name', 'client_id', 'secret', 'sites', 'groups_csv', 'categories_csv')
     form = ImportCSVsForm
 
     def __init__(self, *args, **kwargs):
@@ -162,7 +163,10 @@ class CustomSocialAppAdmin(SocialAppAdmin):
             field.label = 'IDP Config Name'
             field.help_text = "This should be a unique name for the provider."
         elif db_field.name == 'client_id':
-            field.help_text = 'App ID, or consumer key. For SAML providers, this will be part of the default login URL /accounts/saml/{client_id}/login/'
+            field.help_text = 'App ID / Consumer Key. For WeChat (Weixin): the AppID from WeChat Open Platform. For SAML: part of the login URL /accounts/saml/{client_id}/login/'
+        elif db_field.name == 'secret':
+            field.label = 'App Secret'
+            field.help_text = 'App Secret / Consumer Secret. For WeChat (Weixin): the AppSecret from WeChat Open Platform. Leave blank if managed via environment variable WECHAT_APP_SECRET.'
         elif db_field.name == 'sites':
             field.required = True
             field.help_text = "Select at least one site where this social application is available. Required."
@@ -339,22 +343,23 @@ class LoginOptionAdmin(admin.ModelAdmin):
     search_fields = ('title', 'url')
 
 
+
 if getattr(settings, 'USE_IDENTITY_PROVIDERS', False):
     admin.site.register(IdentityProviderUserLog, IdentityProviderUserLogAdmin)
     admin.site.unregister(SocialToken)
 
     # This is unregistering the default Social App and registers the custom one here,
     # with mostly name setting options
-    IdentityProviderUserLog._meta.verbose_name = "User Logs"
-    IdentityProviderUserLog._meta.verbose_name_plural = "User Logs"
+    IdentityProviderUserLog._meta.verbose_name = _("User Logs")
+    IdentityProviderUserLog._meta.verbose_name_plural = _("User Logs")
 
-    SocialAccount._meta.verbose_name = "User Account"
-    SocialAccount._meta.verbose_name_plural = "User Accounts"
+    SocialAccount._meta.verbose_name = _("User Account")
+    SocialAccount._meta.verbose_name_plural = _("User Accounts")
     admin.site.unregister(SocialApp)
     admin.site.register(SocialApp, CustomSocialAppAdmin)
     admin.site.register(LoginOption, LoginOptionAdmin)
     admin.site.unregister(SocialAccount)
     admin.site.register(SocialAccount, CustomSocialAccountAdmin)
-    SocialApp._meta.verbose_name = "ID Provider"
-    SocialApp._meta.verbose_name_plural = "ID Providers"
-    SocialAccount._meta.app_config.verbose_name = "Identity Providers"
+    SocialApp._meta.verbose_name = _("ID Provider")
+    SocialApp._meta.verbose_name_plural = _("ID Providers")
+    SocialAccount._meta.app_config.verbose_name = _("Identity Providers")

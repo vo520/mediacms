@@ -1,97 +1,81 @@
 {% extends "base.html" %}
-{% block headtitle %} | Sign In{% endblock headtitle %}
+{% load i18n %}
+{% block headtitle %} | {% trans "Sign In" %}{% endblock headtitle %}
 
 {% block extra_head %}
 <style>
-  .login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  .login-options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
-  
-  .login-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .login-header h1 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .login-header p {
-    color: #666;
-    font-size: 0.9rem;
-  }
-  
-  .login-select-container {
-    position: relative;
-    margin-bottom: 1.5rem;
-  }
-  
-  .login-select {
+
+  .login-option-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
     width: 100%;
-    padding: 12px 16px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    appearance: none;
-    cursor: pointer;
-  }
-  
-  .login-select:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-  }
-  
-  .select-arrow {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    border-style: solid;
-    border-width: 6px 6px 0 6px;
-    border-color: #666 transparent transparent transparent;
-  }
-  
-  .login-button {
-    display: block;
-    width: 100%;
-    padding: 12px 0;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    padding: 11px 16px;
+    font-size: 0.95rem;
     font-weight: 500;
-    text-align: center;
+    border-radius: 6px;
+    border: 1px solid var(--user-action-form-inner-input-border-color, #ddd);
+    background: transparent;
+    color: var(--user-action-form-inner-input-text-color, #333);
     cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .login-button:hover {
-    background-color: #3a7bc8;
-  }
-  
-  .login-direct-link {
-    display: block;
-    text-align: center;
-    margin-top: 1rem;
-    color: #666;
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
   }
-  
-  .login-direct-link:hover {
-    text-decoration: underline;
-    color: #4a90e2;
+
+  .login-option-btn:hover,
+  .login-option-btn:focus-visible {
+    background: var(--user-action-form-inner-input-bg-color, #f5f5f5);
+    border-color: var(--default-theme-color, #5299e0);
+    box-shadow: 0 0 0 2px rgba(82, 153, 224, 0.18);
+    outline: none;
+    text-decoration: none;
+  }
+
+  /* WeChat brand button */
+  .login-option-btn.wechat {
+    background: #07c160;
+    border-color: #07c160;
+    color: #fff;
+  }
+
+  .login-option-btn.wechat:hover,
+  .login-option-btn.wechat:focus-visible {
+    background: #06ad56;
+    border-color: #06ad56;
+    box-shadow: 0 0 0 2px rgba(7, 193, 96, 0.25);
+  }
+
+  .login-option-btn .login-option-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #999;
+    font-size: 0.8rem;
+    margin: 0.25rem 0;
+  }
+
+  .login-divider::before,
+  .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--user-action-form-inner-input-border-color, #ddd);
   }
 </style>
 {% endblock extra_head %}
@@ -99,52 +83,47 @@
 {% block innercontent %}
 <div class="user-action-form-wrap">
   <div class="user-action-form-inner">
-    <div class="login-container">
-      <div class="login-header">
-        <h1>Sign In</h1>
-        <p>Please select your preferred login method</p>
-      </div>
+    {% include "account/snippets/language_switcher.html" %}
+    <h1>{% trans "Sign In" %}</h1>
+    <p>{% trans "Choose your preferred login method." %}</p>
 
-      <form id="loginForm" method="post" action="">
-        {% csrf_token %}
-        <div class="login-select-container">
-          <select id="loginOptionSelect" class="login-select" onchange="updateFormAction()">
-            <option value="" disabled selected>Select login method...</option>
-            {% for option in login_options %}
-              <option value="{{ option.url }}">{{ option.title }}</option>
-            {% endfor %}
-          </select>
-          <div class="select-arrow"></div>
-        </div>
+    <ul class="login-options-list">
+      {% for option in login_options %}
+        <li>
+          {% if option.is_wechat %}
+            {# WeChat: GET redirect to /accounts/weixin/login/ #}
+            <a href="{{ option.url }}" class="login-option-btn wechat">
+              {# WeChat logo SVG (inline, no external dependency) #}
+              <svg class="login-option-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8.69 11.52c-.57 0-1.03-.47-1.03-1.04s.46-1.04 1.03-1.04c.57 0 1.03.47 1.03 1.04s-.46 1.04-1.03 1.04zm4.62 0c-.57 0-1.03-.47-1.03-1.04s.46-1.04 1.03-1.04c.57 0 1.03.47 1.03 1.04s-.46 1.04-1.03 1.04zM12 2C6.48 2 2 6.03 2 11c0 2.77 1.36 5.25 3.5 6.93L4.5 21l3.28-1.64C8.96 19.75 10.45 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2zm0 16c-1.42 0-2.78-.29-4-.8l-.29-.12-2.93 1.47.75-2.85-.21-.17C3.77 14.92 2.5 13.06 2.5 11c0-4.14 3.81-7.5 8.5-7.5 4.69 0 8.5 3.36 8.5 7.5S16.69 18 12 18z"/>
+              </svg>
+              {{ option.title }}
+            </a>
+          {% elif option.is_internal %}
+            {# Password login: GET to login_system #}
+            <a href="{{ option.url }}" class="login-option-btn">
+              <span class="material-icons login-option-icon" style="font-size:1.3em;" aria-hidden="true">lock</span>
+              {{ option.title }}
+            </a>
+          {% else %}
+            {# Other IdP (SAML etc.): POST #}
+            <form method="post" action="{{ option.url }}" style="margin:0">
+              {% csrf_token %}
+              <button type="submit" class="login-option-btn">{{ option.title }}</button>
+            </form>
+          {% endif %}
+        </li>
+        {% if forloop.last and not forloop.first %}{% endif %}
+      {% empty %}
+        <li>
+          <a href="{% url 'login_system' %}" class="login-option-btn">
+            <span class="material-icons login-option-icon" style="font-size:1.3em;" aria-hidden="true">lock</span>
+            {% trans "Sign In with password" %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
 
-	{% comment %}        <button type="submit" class="login-button">Continue</button> {% endcomment %}
-      </form>
-
-    </div>
   </div>
 </div>
-<script>
-  function updateFormAction() {
-    const select = document.getElementById('loginOptionSelect');
-    const form = document.getElementById('loginForm');
-    form.action = select.value;
-    if (select.value.includes('/accounts/login_system')) {
-      form.method = 'get';
-    } else {
-      form.method = 'post';
-    }
-	  
-  }
-
-  // Auto-submit form on change
-  document.getElementById('loginOptionSelect').addEventListener('change', function() {
-    if (this.value) {
-      // Change method to POST before submitting
-      updateFormAction(); // Update the form method based on URL
-	    
-      document.getElementById('loginForm').submit();
-    }
-  });
-</script>
 {% endblock innercontent %}
-

@@ -17,6 +17,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit
 
@@ -252,6 +253,8 @@ class Media(models.Model):
 
     class Meta:
         ordering = ["-add_date"]
+        verbose_name = _("Media")
+        verbose_name_plural = _("Medias")
         indexes = [
             # TODO: check with pgdash.io or other tool what index need be
             # removed

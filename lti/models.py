@@ -4,6 +4,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from jwcrypto import jwk
 
 
@@ -30,8 +31,8 @@ class LTIPlatform(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'LTI Platform'
-        verbose_name_plural = 'LTI Platforms'
+        verbose_name = _('LTI Platform')
+        verbose_name_plural = _('LTI Platforms')
         unique_together = [['platform_id', 'client_id']]
 
     def __str__(self):
@@ -66,8 +67,8 @@ class LTIResourceLink(models.Model):
     rbac_group = models.ForeignKey('rbac.RBACGroup', on_delete=models.SET_NULL, null=True, blank=True, related_name='lti_resource_links', help_text="RBAC group for course members")
 
     class Meta:
-        verbose_name = 'LTI Resource Link'
-        verbose_name_plural = 'LTI Resource Links'
+        verbose_name = _('LTI Resource Link')
+        verbose_name_plural = _('LTI Resource Links')
         unique_together = [['platform', 'context_id', 'resource_link_id']]
         indexes = [
             models.Index(fields=['platform', 'context_id']),
@@ -89,8 +90,8 @@ class LTIUserMapping(models.Model):
     last_login = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'LTI User Mapping'
-        verbose_name_plural = 'LTI User Mappings'
+        verbose_name = _('LTI User Mapping')
+        verbose_name_plural = _('LTI User Mappings')
         unique_together = [['platform', 'lti_user_id']]
         indexes = [
             models.Index(fields=['platform', 'lti_user_id']),
@@ -116,8 +117,8 @@ class LTIRoleMapping(models.Model):
     group_role = models.CharField(max_length=20, blank=True, choices=GROUP_ROLE_CHOICES, help_text="RBAC group role to assign")
 
     class Meta:
-        verbose_name = 'LTI Role Mapping'
-        verbose_name_plural = 'LTI Role Mappings'
+        verbose_name = _('LTI Role Mapping')
+        verbose_name_plural = _('LTI Role Mappings')
         unique_together = [['platform', 'lti_role']]
 
     def __str__(self):
@@ -145,8 +146,8 @@ class LTILaunchLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
-        verbose_name = 'LTI Launch Log'
-        verbose_name_plural = 'LTI Launch Logs'
+        verbose_name = _('LTI Launch Log')
+        verbose_name_plural = _('LTI Launch Logs')
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['-created_at']),
@@ -175,8 +176,8 @@ class LTIToolKeys(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'LTI Tool Keys'
-        verbose_name_plural = 'LTI Tool Keys'
+        verbose_name = _('LTI Tool Keys')
+        verbose_name_plural = _('LTI Tool Keys')
 
     def __str__(self):
         return f"LTI Keys ({self.key_id})"

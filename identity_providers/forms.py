@@ -21,6 +21,10 @@ class ImportCSVsForm(forms.ModelForm):
     class Meta:
         model = SocialApp
         fields = '__all__'
+        widgets = {
+            # Render AppSecret as a password field to avoid accidental exposure in the browser
+            'secret': forms.PasswordInput(render_value=True),
+        }
 
     def clean_groups_csv(self):
         groups_csv = self.cleaned_data.get('groups_csv')

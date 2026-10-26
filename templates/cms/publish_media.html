@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load i18n %}
 
-{% block headtitle %}Publish media - {{PORTAL_NAME}}{% endblock headtitle %}
+{% block headtitle %}{% trans "Publish media" %} - {{PORTAL_NAME}}{% endblock headtitle %}
 
 {% block headermeta %}{% endblock headermeta %}
 

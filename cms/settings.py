@@ -315,6 +315,7 @@ INSTALLED_APPS = [
     "djcelery_email",
     "drf_yasg",
     "allauth.socialaccount.providers.saml",
+    "allauth.socialaccount.providers.weixin",
     "saml_auth.apps.SamlAuthConfig",
     "tinymce",
 ]
@@ -518,6 +519,10 @@ LANGUAGES = [
 
 LANGUAGE_CODE = 'en'  # default language
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
 TINYMCE_DEFAULT_CONFIG = {
     "theme": "silver",
     "height": 500,
@@ -579,13 +584,31 @@ DJANGO_ADMIN_URL = "admin/"
 
 USE_SAML = False
 USE_RBAC = False
-USE_IDENTITY_PROVIDERS = False
+USE_IDENTITY_PROVIDERS = True
 USE_LTI = False  # Enable LTI 1.3 integration
+
+# WeChat (Weixin) Open Platform - Website App OAuth2 settings
+# Configure APP_ID and APP_SECRET via environment variables or override in local_settings.py
+SOCIALACCOUNT_PROVIDERS = {
+    "weixin": {
+        "APP": {
+            "client_id": os.getenv("WECHAT_APP_ID", ""),
+            "secret": os.getenv("WECHAT_APP_SECRET", ""),
+        },
+        # snsapi_login is required for website QR code login
+        "SCOPE": ["snsapi_login"],
+        "AUTHORIZE_URL": "https://open.weixin.qq.com/connect/qrconnect",
+    }
+}
 
 MIGRATION_PAGE_SIZE = 3
 MIGRATION_API_TIMEOUT = 60
 MIGRATION_DOWNLOAD_TIMEOUT = 60 * 30
 MIGRATION_MAX_RETRIES = 5
+
+JAZZMIN_SETTINGS = {
+    "language_chooser": True,
+}
 
 JAZZMIN_UI_TWEAKS = {"theme": "flatly"}
 

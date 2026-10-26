@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -24,6 +25,10 @@ class Comment(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ["add_date"]
+
+    class Meta:
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
 
     def __str__(self):
         return f"On {self.media.title} by {self.user.username}"

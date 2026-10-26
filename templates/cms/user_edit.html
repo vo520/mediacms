@@ -1,27 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
-{% block headtitle %}Edit profile - {% endblock headtitle %}
+{% load i18n %}
+{% block headtitle %}{% trans "Edit profile" %} - {% endblock headtitle %}
 
 {% block innercontent %}
 
 <div class="user-action-form-wrap">
 	<div class="user-action-form-inner">
-		<h1>Edit Profile</h1>
+		<h1>{% trans "Edit Profile" %}</h1>
 		<form enctype="multipart/form-data" action="" method="post" class="post-form">
 			{% csrf_token %}
 			{{ form.as_p }}
-			<button class="primaryAction" type="submit">Update Profile</button>
+			<button class="primaryAction" type="submit">{% trans "Update Profile" %}</button>
 		</form>
 
 		{% if is_author %}
 			<div class="danger-zone">
-				<h2>Danger Zone</h2>
+				<h2>{% trans "Danger Zone" %}</h2>
 				<div class="danger-zone-content">
 					<div class="danger-zone-info">
-						<h3>Delete Account</h3>
-						<p>This will permanently remove all data, including media and playlists.</p>
+						<h3>{% trans "Delete Account" %}</h3>
+						<p>{% trans "This will permanently remove all data, including media and playlists." %}</p>
 					</div>
-					<button class="btn-danger" id="delete-account-btn" type="button">Delete Account</button>
+					<button class="btn-danger" id="delete-account-btn" type="button">{% trans "Delete Account" %}</button>
 				</div>
 			</div>
 		{% endif %}

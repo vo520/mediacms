@@ -12,4 +12,150 @@ body {
   }
 }
 
+/* ─── Language switcher — authentication pages ─────────────────────────────── */
 
+/* The card is position:relative so we can anchor the switcher to the top-right */
+.user-action-form-inner {
+  position: relative;
+}
+
+.user-action-form-inner .language-switcher {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  z-index: 10;
+}
+
+/* Trigger button */
+.user-action-form-inner .language-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.3em 0.65em 0.3em 0.5em;
+  font-size: 0.8em;
+  line-height: 1;
+  color: var(--user-action-form-inner-input-text-color);
+  background: transparent;
+  border: 1px solid var(--user-action-form-inner-input-border-color);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+
+.user-action-form-inner .language-switcher-trigger:hover,
+.user-action-form-inner .language-switcher-trigger:focus-visible {
+  background: var(--user-action-form-inner-input-bg-color);
+  border-color: var(--default-theme-color, #5299e0);
+  box-shadow: 0 0 0 2px rgba(82, 153, 224, 0.18);
+  outline: none;
+}
+
+.user-action-form-inner .language-switcher-trigger[aria-expanded="true"] {
+  background: var(--user-action-form-inner-input-bg-color);
+  border-color: var(--default-theme-color, #5299e0);
+}
+
+.user-action-form-inner .language-switcher-trigger .language-switcher-icon {
+  font-size: 1.1em;
+  opacity: 0.75;
+}
+
+.user-action-form-inner .language-switcher-trigger .language-switcher-chevron {
+  font-size: 1em;
+  opacity: 0.6;
+  transition: transform 0.2s;
+}
+
+.user-action-form-inner .language-switcher-trigger[aria-expanded="true"] .language-switcher-chevron {
+  transform: rotate(180deg);
+}
+
+/* On very small screens, hide the text label — show icon only */
+@media screen and (max-width: 380px) {
+  .user-action-form-inner .language-switcher-label {
+    display: none;
+  }
+}
+
+/* Dropdown list */
+.user-action-form-inner .language-switcher-form {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 160px;
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.35em 0;
+  background: var(--user-action-form-inner-bg-color);
+  border: 1px solid var(--user-action-form-inner-input-border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Hidden by default */
+  display: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.user-action-form-inner .language-switcher-form.is-open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.user-action-form-inner .language-switcher-dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-action-form-inner .language-switcher-dropdown li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Each language option button */
+.user-action-form-inner .language-switcher-option {
+  display: block;
+  width: 100%;
+  padding: 0.5em 1em;
+  font-size: 0.875em;
+  text-align: left;
+  color: var(--user-action-form-inner-input-text-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.user-action-form-inner .language-switcher-option:hover,
+.user-action-form-inner .language-switcher-option:focus-visible {
+  background: rgba(82, 153, 224, 0.1);
+  outline: none;
+}
+
+.user-action-form-inner .language-switcher-option.is-active {
+  font-weight: 600;
+  color: var(--default-theme-color, #5299e0);
+}
+
+/* Dark theme overrides */
+.dark_theme .user-action-form-inner .language-switcher-form {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dark_theme .user-action-form-inner .language-switcher-option:hover,
+.dark_theme .user-action-form-inner .language-switcher-option:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── JavaScript behaviour (inline script loaded via template) ──────────────
+   The switcher JS is embedded in language_switcher.html so it works without
+   any build step. No additional rules needed here.
+   ─────────────────────────────────────────────────────────────────────────── */

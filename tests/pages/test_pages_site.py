@@ -219,3 +219,45 @@ class TinyMCEUploadTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["error"], "Invalid image type")
         self.assertFalse(TinyMCEMedia.objects.exists())
+
+
+class AuthPagesLanguageSwitcherTest(TestCase):
+    """The authentication pages ship an in-page language switcher."""
+
+    def test_auth_pages_render_the_language_switcher(self):
+        pages = ["/accounts/login/", "/accounts/login_system", "/accounts/signup/", "/accounts/password/reset/"]
+        for url in pages:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'class="language-switcher"')
+                self.assertContains(response, 'action="/i18n/setlang/"')
+                self.assertContains(response, f'name="next" value="{url}"')
+
+    def test_the_switcher_offers_the_configured_languages(self):
+        response = self.client.get("/accounts/login/")
+        self.assertContains(response, 'value="zh-hans"')
+        self.assertContains(response, 'value="en"')
+
+    def test_switching_language_from_an_auth_page_returns_to_it(self):
+        response = self.client.post("/i18n/setlang/", {"language": "fr", "next": "/accounts/signup/"})
+        self.assertRedirects(response, "/accounts/signup/", fetch_redirect_response=False)
+        self.assertEqual(response.cookies["django_language"].value, "fr")
+
+
+class AuthPagesTranslatedCopyTest(TestCase):
+    """The sign in / sign up copy follows the active language."""
+
+    def test_login_copy_is_translated(self):
+        self.client.cookies["django_language"] = "zh-hans"
+        response = self.client.get("/accounts/login_system")
+        self.assertContains(response, "登录")
+        self.assertContains(response, '<a href="/accounts/signup/">注册</a>')
+        self.assertNotContains(response, "<h1>Sign In</h1>")
+
+    def test_signup_copy_is_translated(self):
+        self.client.cookies["django_language"] = "zh-hans"
+        response = self.client.get("/accounts/signup/")
+        self.assertContains(response, "注册")
+        self.assertContains(response, '<a href="/accounts/login/">登录</a>')
+        self.assertNotContains(response, "<h1>Sign Up</h1>")

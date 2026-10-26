@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block headtitle %}{% if user.name %}{{user.name}} - {% endif %}{{PORTAL_NAME}}{% endblock headtitle %}
 
@@ -18,7 +19,7 @@
 
 {% block innercontent %}
 {% if user %}{% else %}
-No such user
+{% trans "No such user" %}
 {% endif %}
 {% endblock %}
 

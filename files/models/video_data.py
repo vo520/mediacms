@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 from .. import helpers
 
@@ -66,8 +67,8 @@ class VideoTrimRequest(models.Model):
     timestamps = models.JSONField(null=False, blank=False, help_text="Timestamps for trimming")
 
     class Meta:
-        verbose_name = "Trim Request"
-        verbose_name_plural = "Trim Requests"
+        verbose_name = _("Trim Request")
+        verbose_name_plural = _("Trim Requests")
 
     def __str__(self):
         return f"Trim request for {self.media.title} ({self.status})"

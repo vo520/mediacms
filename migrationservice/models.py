@@ -8,6 +8,7 @@ from django.db import models
 from django.db.models import Count, F, Value
 from django.db.models.functions import Concat, Right
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from files.models import Category, Media, Playlist, Subtitle
 from users.models import User
@@ -114,8 +115,8 @@ class MigrationService(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = "Migration"
-        verbose_name_plural = "Migrations"
+        verbose_name = _("Migration")
+        verbose_name_plural = _("Migrations")
 
     def __str__(self):
         return f"{self.name} ({self.provider})"
@@ -200,6 +201,8 @@ class MigrationRecord(models.Model):
     class Meta:
         ordering = ["-created_at"]
         unique_together = [["service", "object_type", "source_id"]]
+        verbose_name = _("Migration Record")
+        verbose_name_plural = _("Migration Records")
         indexes = [
             models.Index(fields=["object_type", "source_id"]),
             models.Index(fields=["service", "status"]),

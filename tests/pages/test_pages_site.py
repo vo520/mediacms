@@ -225,7 +225,7 @@ class AuthPagesLanguageSwitcherTest(TestCase):
     """The authentication pages ship an in-page language switcher."""
 
     def test_auth_pages_render_the_language_switcher(self):
-        pages = ["/accounts/login/", "/accounts/login_system", "/accounts/signup/", "/accounts/password/reset/"]
+        pages = ["/accounts/login/", "/accounts/signup/", "/accounts/password/reset/"]
         for url in pages:
             with self.subTest(url=url):
                 response = self.client.get(url)
@@ -250,8 +250,8 @@ class AuthPagesTranslatedCopyTest(TestCase):
 
     def test_login_copy_is_translated(self):
         self.client.cookies["django_language"] = "zh-hans"
-        response = self.client.get("/accounts/login_system")
-        self.assertContains(response, "登录")
+        response = self.client.get("/accounts/login/")
+        self.assertContains(response, "<h1>登录</h1>")
         self.assertContains(response, '<a href="/accounts/signup/">注册</a>')
         self.assertNotContains(response, "<h1>Sign In</h1>")
 

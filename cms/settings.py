@@ -584,7 +584,9 @@ DJANGO_ADMIN_URL = "admin/"
 
 USE_SAML = False
 USE_RBAC = False
-USE_IDENTITY_PROVIDERS = True
+# Enabling this replaces /accounts/login/ with the identity provider selector,
+# so it stays off by default and is turned on per deployment (see local_settings.py).
+USE_IDENTITY_PROVIDERS = False
 USE_LTI = False  # Enable LTI 1.3 integration
 
 # WeChat (Weixin) Open Platform - Website App OAuth2 settings

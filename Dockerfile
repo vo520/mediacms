@@ -1,10 +1,9 @@
 FROM python:3.13.5-slim-bookworm AS build-image
 
-# Install system dependencies needed for downloading and extracting
+# Install system dependencies needed for downloading, extracting and building
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends wget xz-utils unzip && \
+    apt-get install -y --no-install-recommends wget xz-utils unzip git cmake build-essential python3 && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get purge --auto-remove && \
     apt-get clean
 
 RUN wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
@@ -14,14 +13,18 @@ RUN mkdir -p ffmpeg-tmp && \
     cp -v ffmpeg-tmp/ffmpeg ffmpeg-tmp/ffprobe ffmpeg-tmp/qt-faststart /usr/local/bin && \
     rm -rf ffmpeg-tmp ffmpeg-release-amd64-static.tar.xz
 
-# Install Bento4 in the specified location
-RUN mkdir -p /home/mediacms.io/bento4 && \
-    wget -q --tries=5 --waitretry=10 --timeout=30 https://www.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip && \
-    unzip Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip -d /home/mediacms.io/bento4 && \
-    mv /home/mediacms.io/bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux/* /home/mediacms.io/bento4/ && \
-    rm -rf /home/mediacms.io/bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux && \
-    rm -rf /home/mediacms.io/bento4/docs && \
-    rm Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
+# Build Bento4 from source so the binaries match the container architecture
+# (the prebuilt x86_64 binaries are dynamically linked and cannot run on arm64).
+RUN wget -q --tries=5 --waitretry=10 --timeout=60 -O /tmp/bento4.zip https://codeload.github.com/axiomatic-systems/Bento4/zip/refs/tags/v1.6.0-637 && \
+    unzip -q /tmp/bento4.zip -d /tmp && \
+    mv /tmp/Bento4-1.6.0-637 /tmp/bento4-src && \
+    cmake -S /tmp/bento4-src -B /tmp/bento4-src/cmakebuild -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build /tmp/bento4-src/cmakebuild -j"$(nproc)" && \
+    mkdir -p /home/mediacms.io/bento4/bin /home/mediacms.io/bento4/utils && \
+    find /tmp/bento4-src/cmakebuild -maxdepth 1 -type f -executable -exec cp {} /home/mediacms.io/bento4/bin/ \; && \
+    cp /tmp/bento4-src/Source/Python/wrappers/mp4hls /tmp/bento4-src/Source/Python/wrappers/mp4dash /tmp/bento4-src/Source/Python/wrappers/mp4dashclone /home/mediacms.io/bento4/bin/ && \
+    cp -r /tmp/bento4-src/Source/Python/utils/* /home/mediacms.io/bento4/utils/ && \
+    rm -rf /tmp/bento4-src /tmp/bento4.zip
 
 ############ BASE RUNTIME IMAGE ############
 FROM python:3.13.5-slim-bookworm AS base
